@@ -218,8 +218,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),  
 
     [_ADJUST] = LAYOUT_ortho_4x12(
-    _______,    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    TO(_MAIN),    _______,    _______,    ST_GEM,     ST_BOLT,    RESET,    \
-    _______,    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    TO(_MAIN2),   _______,    _______,    _______,    _______,    _______,    \
+    _______,    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,    ST_GEM,     ST_BOLT,    RESET,    \
+    _______,    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_MAIN2),   _______,    _______,    _______,    _______,    _______,    \
     _______,    CMB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    \
     RGB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    STN_PWR,    STN_RE1,    STN_RE2 
     ),
@@ -280,16 +280,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         layer_off(_SYMBOL2);
         
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-
-      } else {
-        layer_off(_ADJUST);
-
       }
       return false;
       break;
