@@ -15,10 +15,12 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_steno.h"
+#include "features/caps_word.h"
 
 enum layers {
-    _DEFAULT,
-    _MAPLESTORY,
+    _MAIN,
+    _MAIN2,
+    _MPLSTRY,
     _PLOVER,
     _LOWER,
     _RAISE,
@@ -27,7 +29,7 @@ enum layers {
 };
 
 // #define _DEFAULT 0
-// #define _MAPLESTORY 1
+// #define _MPLSTRY 1
 // #define _PLOVER 10
 // #define _LOWER 11
 // #define _RAISE 12
@@ -146,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    _______,         KC_CAPS, KC_LGUI, KC_LALT, LOWER,   KC_SPC,     _______,   _______,    KC_BSPC,  RAISE,   KC_RALT, KC_RGUI, _______,    _______ 
 // ),
 
-[_DEFAULT] = LAYOUT_ortho_5x14(
+[_MAIN] = LAYOUT_ortho_5x14(
    KC_GRV,          KC_1,    KC_2,    KC_3,    KC_4,    KC_5,       KC_6,      KC_5,       KC_6,     KC_7,    KC_8,    KC_9,    KC_0,      KC_EQL , \
    KC_TAB,          KC_QUOT, KC_COMM, KC_DOT,  CTRL_P,  KC_Y,       KC_EQL,    KC_MINS,    KC_F,     CTRL_G,    KC_C,    KC_R,    KC_L,      KC_SLSH , \
    KC_LCTL,         KC_A,    KC_O,    KC_E,    KC_U,    KC_I,       KC_EQL,    KC_MINS,    KC_D,     KC_H,    KC_T,    KC_N,    KC_S,      KC_ENT , \
@@ -154,7 +156,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    _______,         KC_CAPS, KC_LGUI, KC_LALT, LOWER,   KC_SPC,     _______,   _______,    KC_BSPC,  RAISE,   KC_RALT, KC_RGUI, _______,    _______ 
 ),
 
- [_MAPLESTORY] = LAYOUT_ortho_5x14(
+[_MAIN2] = LAYOUT_ortho_5x14(
+    KC_GRV,     KC_1,        KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_5,   KC_6,     KC_7,     KC_8,     KC_9,    KC_0,      KC_EQL,
+    KC_TAB,     KC_Y,        KC_P,     KC_O,     KC_U,     KC_J,     KC_EQL,   KC_MINS,KC_K,     KC_D,   KC_L,     KC_C,     KC_W,     KC_QUOT,  
+    KC_LCTL,    KC_I,        KC_N,     KC_E,     KC_A,     KC_COMM,  KC_EQL,   KC_MINS,KC_M,     KC_H,   KC_T,     KC_S,     KC_R,     KC_ENT, 
+    KC_LSFT,    KC_Q,        KC_Z,     KC_SLSH,  KC_DOT,   KC_SCLN,  KC_EQL,   KC_MINS,KC_B,     KC_F,   KC_G,     KC_V,     KC_X,    KC_RSFT,  \
+    XXXXXXX,    KC_CAPS,     KC_LGUI,  KC_LALT,  LOWER,    KC_SPC, _______,   _______,   KC_BSPC,  RAISE,  KC_RALT,  XXXXXXX,  XXXXXXX,  XXXXXXX
+    ),
+
+ [_MPLSTRY] = LAYOUT_ortho_5x14(
   KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_5,     KC_6,    KC_7,    KC_8,    KC_9,      KC_0,    KC_BSPC, \
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_LBRC, KC_RBRC,  KC_Y,    KC_U,    KC_I,    KC_O,      KC_P,    KC_QUOT, \
   KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    _______, _______,  KC_H,    KC_J,    KC_K,    KC_L,      KC_SCLN, KC_ENT,  \
@@ -180,11 +190,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ), 
 
 [_ADJUST] = LAYOUT_ortho_5x14(
-  TO(_DEFAULT),   PLOVER, TO(_MAPLESTORY), _______,  _______,   _______,  RGB_TOG, _______, _______,    _______, _______, ST_GEM,   ST_BOLT,   RESET, \
-  _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, KC_TRNS, _______, _______,  _______, _______,    OS_OFF,  OS_ON,  DEBUG, \
-  _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, KC_TRNS, _______, _______,  _______, _______,  _______, _______,   _______, \
-  _______,  _______,    _______,    _______,    _______, _______, KC_TRNS, _______, _______,  _______, _______,  _______,  _______,  _______, \
-  _______,  _______,    _______,    _______,    _______, _______, KC_TRNS, _______, _______,   _______, _______,  STN_PWR,  STN_RE1,  STN_RE2 
+  _______,   PLOVER, TO(_MPLSTRY), _______,  _______,   _______,  RGB_TOG, _______, _______,    _______, _______, ST_GEM,   ST_BOLT,   RESET, \
+  _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______, _______, DF(_MAIN),  _______, _______,    OS_OFF,  OS_ON,  DEBUG, \
+  _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______, _______, DF(_MAIN2),  _______, _______,  _______, _______,   _______, \
+  _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______,  _______, _______,  _______,  _______,  _______, \
+  _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______,   _______, _______,  STN_PWR,  STN_RE1,  STN_RE2 
 ), 
 
 
@@ -298,6 +308,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+  if (!process_caps_word(keycode, record)) { return false; }
+
   switch (keycode) {
     case LOWER:
       if (record->event.pressed) {
@@ -353,43 +366,60 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-// void led_set_user(uint8_t usb_led) {
-//     if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-//         DDRB |= (1 << 2); PORTB &= ~(1 << 2);
-//         rgblight_setrgb(25, 25, 255);
-//     } else {
-//         DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
-//         rgblight_setrgb(0, 0, 0);
-//     }
-// }
+void led_set_user(uint8_t usb_led) {
+    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
+        DDRB |= (1 << 2); PORTB &= ~(1 << 2);
+        rgblight_setrgb(25, 25, 255);
+    } else {
+        DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
+        rgblight_setrgb(0, 0, 0);
+    }
+}
 
-// uint32_t layer_state_set_user(uint32_t state) {
-//     switch (biton32(state)) {
-//     case _DEFAULT:
-//         rgblight_setrgb(0, 171, 197);
-//         break;
-//     case _RAISE:
-//         rgblight_setrgb(0xFF, 0x00, 0x00);
-//         break;
-//     case _LOWER:
-//         rgblight_setrgb(0x00, 0xFF, 0x00);
-//         break;
-//     case _ADJUST:
-//         rgblight_setrgb(255, 239, 213);
-//         break;
-//     case _PLOVER:
-//         rgblight_setrgb(134, 96, 142);
-//         break;
+uint32_t layer_state_set_user(uint32_t state) {
+//   // if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+//   //   rgblight_setrgb(0, 170, 196);
+//   // }
+//     switch (get_highest_layer(state)) {
+//     // case _MAIN:
+//     //     rgblight_setrgb(0, 171, 197);
+//     //     if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+//     //       rgblight_setrgb(255, 0, 0);
+//     //     }
+        
+//     //     break;
+//     // case _MAIN2:
+//     //     rgblight_setrgb(255, 239, 213);
+//     //     if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+//     //       rgblight_setrgb(255, 0, 0);
+//     //     }
+//     //     break;
+// //     case _RAISE:
+// //         rgblight_setrgb(0xFF, 0x00, 0x00);
+// //         break;
+// //     case _LOWER:
+// //         rgblight_setrgb(0x00, 0xFF, 0x00);
+// //         break;
+// //     case _ADJUST:
+// //         rgblight_setrgb(255, 239, 213);
+// //         break;
+// //     case _PLOVER:
+// //         rgblight_setrgb(134, 96, 142);
+// //         break;
 //     default: //  for any other layers, or the default layer
-//         if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
-//           rgblight_setrgb(0, 171, 197);
+
+//       // rgblight_setrgb(255, 0, 0);
+
+//       // if (host_keyboard_led_state().caps_lock) {
+//       if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+//           rgblight_setrgb(255, 0, 0);
 //         } else {
-//           rgblight_setrgb(0x00, 0x00, 0x00);
+//           rgblight_setrgb(0, 0, 255);
 //         }
 //         break;
 //     }
-//   return state;
-// }
+  return state;
+}
 
 // add briefs. 'for', 'that', 'this' etc.
 // add some programming briefs like 'function'?
@@ -549,3 +579,12 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 //   debug_keyboard=true;
 //   //debug_mouse=true;
 // }
+
+
+void keyboard_post_init_user(void) {
+
+  // rgb_matrix_disable_noeeprom(); // disables Rgb, without saving settings
+  // rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+  rgblight_setrgb(0, 0, 0);
+  // rgblight_setrgb(50, 50, 50);
+}

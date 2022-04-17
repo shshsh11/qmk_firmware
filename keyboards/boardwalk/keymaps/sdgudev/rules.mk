@@ -12,8 +12,11 @@ STENO_ENABLE = yes
 COMBO_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
-RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
+RGBLIGHT_ENABLE = yes        # Enable keyboard RGB underglow
 AUDIO_ENABLE = no           # Audio output
 RGB_MATRIX_ENABLE = no
 # RGB_MATRIX_DRIVER = WS2812
 LAYOUTS = ortho_5x14
+
+LTO_ENABLE = yes
+SRC += features/caps_word.c
