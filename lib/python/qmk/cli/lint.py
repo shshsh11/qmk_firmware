@@ -7,6 +7,7 @@ from milc import cli
 from qmk.decorators import automagic_keyboard, automagic_keymap
 from qmk.info import info_json
 from qmk.keyboard import keyboard_completer, list_keyboards
+<<<<<<< HEAD
 from qmk.keymap import locate_keymap, list_keymaps
 from qmk.path import is_keyboard, keyboard
 from qmk.git import git_get_ignored_files
@@ -44,6 +45,28 @@ def _rules_mk_assignment_only(kb):
     """Check the keyboard-level rules.mk to ensure it only has assignments.
     """
     keyboard_path = keyboard(kb)
+=======
+from qmk.keymap import locate_keymap
+from qmk.path import is_keyboard, keyboard
+
+
+def keymap_check(kb, km):
+    """Perform the keymap level checks.
+    """
+    ok = True
+    keymap_path = locate_keymap(kb, km)
+
+    if not keymap_path:
+        ok = False
+        cli.log.error("%s: Can't find %s keymap.", kb, km)
+
+    return ok
+
+
+def rules_mk_assignment_only(keyboard_path):
+    """Check the keyboard-level rules.mk to ensure it only has assignments.
+    """
+>>>>>>> 092e65ec9d (fixing this branch)
     current_path = Path()
     errors = []
 
@@ -75,6 +98,7 @@ def _rules_mk_assignment_only(kb):
     return errors
 
 
+<<<<<<< HEAD
 def keymap_check(kb, km):
     """Perform the keymap level checks.
     """
@@ -122,11 +146,16 @@ def keyboard_check(kb):
     return ok
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 @cli.argument('--strict', action='store_true', help='Treat warnings as errors')
 @cli.argument('-kb', '--keyboard', completer=keyboard_completer, help='Comma separated list of keyboards to check')
 @cli.argument('-km', '--keymap', help='The keymap to check')
 @cli.argument('--all-kb', action='store_true', arg_only=True, help='Check all keyboards')
+<<<<<<< HEAD
 @cli.argument('--all-km', action='store_true', arg_only=True, help='Check all keymaps')
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 @cli.subcommand('Check keyboard and keymap for common mistakes.')
 @automagic_keyboard
 @automagic_keymap
@@ -138,7 +167,11 @@ def lint(cli):
     # Determine our keyboard list
     if cli.args.all_kb:
         if cli.args.keyboard:
+<<<<<<< HEAD
             cli.log.warning('Both --all-kb and --keyboard passed, --all-kb takes precedence.')
+=======
+            cli.log.warning('Both --all-kb and --keyboard passed, --all-kb takes presidence.')
+>>>>>>> 092e65ec9d (fixing this branch)
 
         keyboard_list = list_keyboards()
     elif not cli.config.lint.keyboard:
@@ -154,6 +187,7 @@ def lint(cli):
             cli.log.error('No such keyboard: %s', kb)
             continue
 
+<<<<<<< HEAD
         # Determine keymaps to also check
         if cli.args.all_km:
             keymaps = list_keymaps(kb)
@@ -173,6 +207,40 @@ def lint(cli):
         # Keymap specific checks
         for keymap in keymaps:
             if not keymap_check(kb, keymap):
+=======
+        # Gather data about the keyboard.
+        ok = True
+        keyboard_path = keyboard(kb)
+        keyboard_info = info_json(kb)
+
+        # Check for errors in the info.json
+        if keyboard_info['parse_errors']:
+            ok = False
+            cli.log.error('%s: Errors found when generating info.json.', kb)
+
+        if cli.config.lint.strict and keyboard_info['parse_warnings']:
+            ok = False
+            cli.log.error('%s: Warnings found when generating info.json (Strict mode enabled.)', kb)
+
+        # Check the rules.mk file(s)
+        rules_mk_assignment_errors = rules_mk_assignment_only(keyboard_path)
+        if rules_mk_assignment_errors:
+            ok = False
+            cli.log.error('%s: Non-assignment code found in rules.mk. Move it to post_rules.mk instead.', kb)
+            for assignment_error in rules_mk_assignment_errors:
+                cli.log.error(assignment_error)
+
+        # Keymap specific checks
+        if cli.config.lint.keymap:
+            if not keymap_check(kb, cli.config.lint.keymap):
+                ok = False
+
+        # Check if all non-data driven macros exist in <keyboard.h>
+        for layout, data in keyboard_info['layouts'].items():
+            # Matrix data should be a list with exactly two integers: [0, 1]
+            if not data['c_macro'] and not all('matrix' in key_data.keys() or len(key_data) == 2 or all(isinstance(n, int) for n in key_data) for key_data in data['layout']):
+                cli.log.error(f'{kb}: "{layout}" has no "matrix" definition in either "info.json" or "<keyboard>.h"!')
+>>>>>>> 092e65ec9d (fixing this branch)
                 ok = False
 
         # Report status

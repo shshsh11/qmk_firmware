@@ -11,11 +11,15 @@ def status():
         {
             'name': 'submodule_name',
             'status': None/False/True,
+<<<<<<< HEAD
             'githash': '<sha-1 hash for the submodule>'
             'shorthash': '<short hash for the submodule>'
             'describe': '<output of `git describe --tags`>'
             'last_log_message': 'log message'
             'last_log_timestamp': 'timestamp'
+=======
+            'githash': '<sha-1 hash for the submodule>
+>>>>>>> 092e65ec9d (fixing this branch)
         }
 
     status is None when the submodule doesn't exist, False when it's out of date, and True when it's current
@@ -40,6 +44,7 @@ def status():
         else:
             raise ValueError('Unknown `git submodule status` sha-1 prefix character: "%s"' % status)
 
+<<<<<<< HEAD
     submodule_logs = cli.run(['git', 'submodule', '-q', 'foreach', 'git --no-pager log --pretty=format:"$sm_path%x01%h%x01%ad%x01%s%x0A" --date=iso -n1'])
     for log_line in submodule_logs.stdout.split('\n'):
         if not log_line:
@@ -60,6 +65,8 @@ def status():
         submodule = r[0]
         submodules[submodule]['describe'] = r[1] if len(r) > 1 else ''
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
     return submodules
 
 

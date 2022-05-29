@@ -134,6 +134,7 @@ def generate_config_items(kb_info_json, config_h_lines):
             config_h_lines.append(f'#endif // {config_key}')
 
 
+<<<<<<< HEAD
 def generate_encoder_config(encoder_json, config_h_lines, postfix=''):
     """Generate the config.h lines for encoders."""
     a_pads = []
@@ -164,6 +165,8 @@ def generate_encoder_config(encoder_json, config_h_lines, postfix=''):
         config_h_lines.append(f'#endif // ENCODER_RESOLUTIONS{postfix}')
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 def generate_split_config(kb_info_json, config_h_lines):
     """Generate the config.h lines for split boards."""
     if 'primary' in kb_info_json['split']:
@@ -203,9 +206,12 @@ def generate_split_config(kb_info_json, config_h_lines):
     if 'right' in kb_info_json['split'].get('matrix_pins', {}):
         config_h_lines.append(matrix_pins(kb_info_json['split']['matrix_pins']['right'], '_RIGHT'))
 
+<<<<<<< HEAD
     if 'right' in kb_info_json['split'].get('encoder', {}):
         generate_encoder_config(kb_info_json['split']['encoder']['right'], config_h_lines, '_RIGHT')
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 
 @cli.argument('-o', '--output', arg_only=True, type=normpath, help='File to write to')
 @cli.argument('-q', '--quiet', arg_only=True, action='store_true', help="Quiet mode, only output error messages")
@@ -231,9 +237,12 @@ def generate_config_h(cli):
     if 'matrix_pins' in kb_info_json:
         config_h_lines.append(matrix_pins(kb_info_json['matrix_pins']))
 
+<<<<<<< HEAD
     if 'encoder' in kb_info_json:
         generate_encoder_config(kb_info_json['encoder'], config_h_lines)
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
     if 'split' in kb_info_json:
         generate_split_config(kb_info_json, config_h_lines)
 

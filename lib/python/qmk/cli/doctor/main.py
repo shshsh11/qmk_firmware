@@ -11,7 +11,11 @@ from milc.questions import yesno
 from qmk import submodules
 from qmk.constants import QMK_FIRMWARE, QMK_FIRMWARE_UPSTREAM
 from .check import CheckStatus, check_binaries, check_binary_versions, check_submodules
+<<<<<<< HEAD
 from qmk.git import git_check_repo, git_get_branch, git_get_tag, git_get_last_log_entry, git_get_common_ancestor, git_is_dirty, git_get_remotes, git_check_deviation
+=======
+from qmk.git import git_check_repo, git_get_branch, git_get_tag, git_is_dirty, git_get_remotes, git_check_deviation
+>>>>>>> 092e65ec9d (fixing this branch)
 from qmk.commands import in_virtualenv
 
 
@@ -66,14 +70,18 @@ def git_tests():
                 if git_branch in ['master', 'develop'] and git_deviation:
                     cli.log.warning('{fg_yellow}The local "%s" branch contains commits not found in the upstream branch.', git_branch)
                     status = CheckStatus.WARNING
+<<<<<<< HEAD
                 for branch in [git_branch, 'upstream/master', 'upstream/develop']:
                     cli.log.info('- Latest %s: %s', branch, git_get_last_log_entry(branch))
                 for branch in ['upstream/master', 'upstream/develop']:
                     cli.log.info('- Common ancestor with %s: %s', branch, git_get_common_ancestor(branch, 'HEAD'))
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 
     return status
 
 
+<<<<<<< HEAD
 def output_submodule_status():
     """Prints out information related to the submodule status.
     """
@@ -92,6 +100,8 @@ def output_submodule_status():
                 cli.log.error(f'- {sub_name}: <<< missing or unknown >>>')
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 @cli.argument('-y', '--yes', action='store_true', arg_only=True, help='Answer yes to all questions.')
 @cli.argument('-n', '--no', action='store_true', arg_only=True, help='Answer no to all questions.')
 @cli.subcommand('Basic QMK environment checks')
@@ -151,8 +161,11 @@ def doctor(cli):
         elif sub_ok == CheckStatus.WARNING and status == CheckStatus.OK:
             status = CheckStatus.WARNING
 
+<<<<<<< HEAD
     output_submodule_status()
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
     # Report a summary of our findings to the user
     if status == CheckStatus.OK:
         cli.log.info('{fg_green}QMK is ready to go')

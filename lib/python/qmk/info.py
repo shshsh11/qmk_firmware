@@ -26,6 +26,16 @@ def _valid_community_layout(layout):
     return (Path('layouts/default') / layout).exists()
 
 
+<<<<<<< HEAD
+=======
+def _remove_newlines_from_labels(layouts):
+    for layout_name, layout_json in layouts.items():
+        for key in layout_json['layout']:
+            if '\n' in key['label']:
+                key['label'] = key['label'].split('\n')[0]
+
+
+>>>>>>> 092e65ec9d (fixing this branch)
 def info_json(keyboard):
     """Generate the info.json data for a specific keyboard.
     """
@@ -104,13 +114,30 @@ def info_json(keyboard):
     # Check that the reported matrix size is consistent with the actual matrix size
     _check_matrix(info_data)
 
+<<<<<<< HEAD
+=======
+    # Remove newline characters from layout labels
+    _remove_newlines_from_labels(layouts)
+
+>>>>>>> 092e65ec9d (fixing this branch)
     return info_data
 
 
 def _extract_features(info_data, rules):
     """Find all the features enabled in rules.mk.
     """
+<<<<<<< HEAD
     # Process booleans rules
+=======
+    # Special handling for bootmagic which also supports a "lite" mode.
+    if rules.get('BOOTMAGIC_ENABLE') == 'lite':
+        rules['BOOTMAGIC_LITE_ENABLE'] = 'on'
+        del rules['BOOTMAGIC_ENABLE']
+    if rules.get('BOOTMAGIC_ENABLE') == 'full':
+        rules['BOOTMAGIC_ENABLE'] = 'on'
+
+    # Process the rest of the rules as booleans
+>>>>>>> 092e65ec9d (fixing this branch)
     for key, value in rules.items():
         if key.endswith('_ENABLE'):
             key = '_'.join(key.split('_')[:-1]).lower()
@@ -211,6 +238,7 @@ def _extract_audio(info_data, config_c):
         info_data['audio'] = {'pins': audio_pins}
 
 
+<<<<<<< HEAD
 def _extract_encoders_values(config_c, postfix=''):
     """Common encoder extraction logic
     """
@@ -271,6 +299,8 @@ def _extract_split_encoders(info_data, config_c):
         info_data['split']['encoder']['right']['rotary'] = encoders
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 def _extract_secure_unlock(info_data, config_c):
     """Populate data about the secure unlock sequence
     """
@@ -367,9 +397,17 @@ def _extract_split_right_pins(info_data, config_c):
     # Figure out the right half matrix pins
     row_pins = config_c.get('MATRIX_ROW_PINS_RIGHT', '').replace('{', '').replace('}', '').strip()
     col_pins = config_c.get('MATRIX_COL_PINS_RIGHT', '').replace('{', '').replace('}', '').strip()
+<<<<<<< HEAD
     direct_pins = config_c.get('DIRECT_PINS_RIGHT', '').replace(' ', '')[1:-1]
 
     if row_pins or col_pins or direct_pins:
+=======
+    unused_pin_text = config_c.get('UNUSED_PINS_RIGHT')
+    unused_pins = unused_pin_text.replace('{', '').replace('}', '').strip() if isinstance(unused_pin_text, str) else None
+    direct_pins = config_c.get('DIRECT_PINS_RIGHT', '').replace(' ', '')[1:-1]
+
+    if row_pins and col_pins:
+>>>>>>> 092e65ec9d (fixing this branch)
         if info_data.get('split', {}).get('matrix_pins', {}).get('right') in info_data:
             _log_warning(info_data, 'Right hand matrix data is specified in both info.json and config.h, the config.h values win.')
 
@@ -382,6 +420,7 @@ def _extract_split_right_pins(info_data, config_c):
         if 'right' not in info_data['split']['matrix_pins']:
             info_data['split']['matrix_pins']['right'] = {}
 
+<<<<<<< HEAD
         if col_pins:
             info_data['split']['matrix_pins']['right']['cols'] = _extract_pins(col_pins)
 
@@ -390,6 +429,39 @@ def _extract_split_right_pins(info_data, config_c):
 
         if direct_pins:
             info_data['split']['matrix_pins']['right']['direct'] = _extract_direct_matrix(direct_pins)
+=======
+        info_data['split']['matrix_pins']['right'] = {
+            'cols': _extract_pins(col_pins),
+            'rows': _extract_pins(row_pins),
+        }
+
+    if direct_pins:
+        if info_data.get('split', {}).get('matrix_pins', {}).get('right', {}):
+            _log_warning(info_data, 'Right hand matrix data is specified in both info.json and config.h, the config.h values win.')
+
+        if 'split' not in info_data:
+            info_data['split'] = {}
+
+        if 'matrix_pins' not in info_data['split']:
+            info_data['split']['matrix_pins'] = {}
+
+        if 'right' not in info_data['split']['matrix_pins']:
+            info_data['split']['matrix_pins']['right'] = {}
+
+        info_data['split']['matrix_pins']['right']['direct'] = _extract_direct_matrix(direct_pins)
+
+    if unused_pins:
+        if 'split' not in info_data:
+            info_data['split'] = {}
+
+        if 'matrix_pins' not in info_data['split']:
+            info_data['split']['matrix_pins'] = {}
+
+        if 'right' not in info_data['split']['matrix_pins']:
+            info_data['split']['matrix_pins']['right'] = {}
+
+        info_data['split']['matrix_pins']['right']['unused'] = _extract_pins(unused_pins)
+>>>>>>> 092e65ec9d (fixing this branch)
 
 
 def _extract_matrix_info(info_data, config_c):
@@ -397,6 +469,11 @@ def _extract_matrix_info(info_data, config_c):
     """
     row_pins = config_c.get('MATRIX_ROW_PINS', '').replace('{', '').replace('}', '').strip()
     col_pins = config_c.get('MATRIX_COL_PINS', '').replace('{', '').replace('}', '').strip()
+<<<<<<< HEAD
+=======
+    unused_pin_text = config_c.get('UNUSED_PINS')
+    unused_pins = unused_pin_text.replace('{', '').replace('}', '').strip() if isinstance(unused_pin_text, str) else None
+>>>>>>> 092e65ec9d (fixing this branch)
     direct_pins = config_c.get('DIRECT_PINS', '').replace(' ', '')[1:-1]
     info_snippet = {}
 
@@ -422,6 +499,15 @@ def _extract_matrix_info(info_data, config_c):
 
         info_snippet['direct'] = _extract_direct_matrix(direct_pins)
 
+<<<<<<< HEAD
+=======
+    if unused_pins:
+        if 'matrix_pins' not in info_data:
+            info_data['matrix_pins'] = {}
+
+        info_snippet['unused'] = _extract_pins(unused_pins)
+
+>>>>>>> 092e65ec9d (fixing this branch)
     if config_c.get('CUSTOM_MATRIX', 'no') != 'no':
         if 'matrix_pins' in info_data and 'custom' in info_data['matrix_pins']:
             _log_warning(info_data, 'Custom Matrix is specified in both info.json and config.h, the config.h values win.')
@@ -450,6 +536,7 @@ def _extract_device_version(info_data):
             info_data['usb']['device_version'] = f'{major}.{minor}.{revision}'
 
 
+<<<<<<< HEAD
 def _config_to_json(key_type, config_value):
     """Convert config value using spec
     """
@@ -491,6 +578,8 @@ def _config_to_json(key_type, config_value):
     return config_value
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 def _extract_config_h(info_data, config_c):
     """Pull some keyboard information from existing config.h files
     """
@@ -503,6 +592,7 @@ def _extract_config_h(info_data, config_c):
         key_type = info_dict.get('value_type', 'raw')
 
         try:
+<<<<<<< HEAD
             replace_with = info_dict.get('replace_with')
             if config_key in config_c and info_dict.get('invalid', False):
                 if replace_with:
@@ -515,11 +605,53 @@ def _extract_config_h(info_data, config_c):
                 else:
                     _log_warning(info_data, '%s in config.h is deprecated and will be removed at a later date' % config_key)
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
             if config_key in config_c and info_dict.get('to_json', True):
                 if dotty_info.get(info_key) and info_dict.get('warn_duplicate', True):
                     _log_warning(info_data, '%s in config.h is overwriting %s in info.json' % (config_key, info_key))
 
+<<<<<<< HEAD
                 dotty_info[info_key] = _config_to_json(key_type, config_c[config_key])
+=======
+                if key_type.startswith('array'):
+                    if '.' in key_type:
+                        key_type, array_type = key_type.split('.', 1)
+                    else:
+                        array_type = None
+
+                    config_value = config_c[config_key].replace('{', '').replace('}', '').strip()
+
+                    if array_type == 'int':
+                        dotty_info[info_key] = list(map(int, config_value.split(',')))
+                    else:
+                        dotty_info[info_key] = config_value.split(',')
+
+                elif key_type == 'bool':
+                    dotty_info[info_key] = config_c[config_key] in true_values
+
+                elif key_type == 'hex':
+                    dotty_info[info_key] = '0x' + config_c[config_key][2:].upper()
+
+                elif key_type == 'list':
+                    dotty_info[info_key] = config_c[config_key].split()
+
+                elif key_type == 'int':
+                    dotty_info[info_key] = int(config_c[config_key])
+
+                elif key_type == 'str':
+                    dotty_info[info_key] = config_c[config_key].strip('"')
+
+                elif key_type == 'bcd_version':
+                    major = int(config_c[config_key][2:4])
+                    minor = int(config_c[config_key][4])
+                    revision = int(config_c[config_key][5])
+
+                    dotty_info[info_key] = f'{major}.{minor}.{revision}'
+
+                else:
+                    dotty_info[info_key] = config_c[config_key]
+>>>>>>> 092e65ec9d (fixing this branch)
 
         except Exception as e:
             _log_warning(info_data, f'{config_key}->{info_key}: {e}')
@@ -533,8 +665,11 @@ def _extract_config_h(info_data, config_c):
     _extract_split_main(info_data, config_c)
     _extract_split_transport(info_data, config_c)
     _extract_split_right_pins(info_data, config_c)
+<<<<<<< HEAD
     _extract_encoders(info_data, config_c)
     _extract_split_encoders(info_data, config_c)
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
     _extract_device_version(info_data)
 
     return info_data
@@ -576,6 +711,7 @@ def _extract_rules_mk(info_data, rules):
         key_type = info_dict.get('value_type', 'raw')
 
         try:
+<<<<<<< HEAD
             replace_with = info_dict.get('replace_with')
             if rules_key in rules and info_dict.get('invalid', False):
                 if replace_with:
@@ -588,11 +724,46 @@ def _extract_rules_mk(info_data, rules):
                 else:
                     _log_warning(info_data, '%s in rules.mk is deprecated and will be removed at a later date' % rules_key)
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
             if rules_key in rules and info_dict.get('to_json', True):
                 if dotty_info.get(info_key) and info_dict.get('warn_duplicate', True):
                     _log_warning(info_data, '%s in rules.mk is overwriting %s in info.json' % (rules_key, info_key))
 
+<<<<<<< HEAD
                 dotty_info[info_key] = _config_to_json(key_type, rules[rules_key])
+=======
+                if key_type.startswith('array'):
+                    if '.' in key_type:
+                        key_type, array_type = key_type.split('.', 1)
+                    else:
+                        array_type = None
+
+                    rules_value = rules[rules_key].replace('{', '').replace('}', '').strip()
+
+                    if array_type == 'int':
+                        dotty_info[info_key] = list(map(int, rules_value.split(',')))
+                    else:
+                        dotty_info[info_key] = rules_value.split(',')
+
+                elif key_type == 'list':
+                    dotty_info[info_key] = rules[rules_key].split()
+
+                elif key_type == 'bool':
+                    dotty_info[info_key] = rules[rules_key] in true_values
+
+                elif key_type == 'hex':
+                    dotty_info[info_key] = '0x' + rules[rules_key][2:].upper()
+
+                elif key_type == 'int':
+                    dotty_info[info_key] = int(rules[rules_key])
+
+                elif key_type == 'str':
+                    dotty_info[info_key] = rules[rules_key].strip('"')
+
+                else:
+                    dotty_info[info_key] = rules[rules_key]
+>>>>>>> 092e65ec9d (fixing this branch)
 
         except Exception as e:
             _log_warning(info_data, f'{rules_key}->{info_key}: {e}')
@@ -833,11 +1004,16 @@ def merge_info_jsons(keyboard, info_data):
                     for new_key, existing_key in zip(layout['layout'], info_data['layouts'][layout_name]['layout']):
                         existing_key.update(new_key)
             else:
+<<<<<<< HEAD
                 if not all('matrix' in key_data.keys() for key_data in layout['layout']):
                     _log_error(info_data, f'Layout "{layout_name}" has no "matrix" definition in either "info.json" or "<keyboard>.h"!')
                 else:
                     layout['c_macro'] = False
                     info_data['layouts'][layout_name] = layout
+=======
+                layout['c_macro'] = False
+                info_data['layouts'][layout_name] = layout
+>>>>>>> 092e65ec9d (fixing this branch)
 
         # Update info_data with the new data
         if 'layouts' in new_info_data:

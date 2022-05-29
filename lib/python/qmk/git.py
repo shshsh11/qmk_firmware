@@ -62,6 +62,7 @@ def git_get_tag():
         return git_tag.stdout.strip()
 
 
+<<<<<<< HEAD
 def git_get_last_log_entry(branch_name):
     """Retrieves the last log entry for the branch being worked on.
     """
@@ -81,6 +82,8 @@ def git_get_common_ancestor(branch_a, branch_b):
         return git_branchpoint_log.stdout.strip()
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 def git_get_remotes():
     """Returns the current remotes for a repo.
     """
@@ -127,6 +130,7 @@ def git_check_deviation(active_branch):
     cli.run(['git', 'fetch', 'upstream', active_branch])
     deviations = cli.run(['git', '--no-pager', 'log', f'upstream/{active_branch}...{active_branch}'])
     return bool(deviations.returncode)
+<<<<<<< HEAD
 
 
 def git_get_ignored_files(check_dir='.'):
@@ -136,3 +140,5 @@ def git_get_ignored_files(check_dir='.'):
     if invalid.returncode != 0:
         return []
     return invalid.stdout.strip().splitlines()
+=======
+>>>>>>> 092e65ec9d (fixing this branch)

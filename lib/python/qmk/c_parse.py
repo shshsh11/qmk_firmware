@@ -24,6 +24,7 @@ def _get_chunks(it, size):
     return iter(lambda: tuple(islice(it, size)), ())
 
 
+<<<<<<< HEAD
 def _preprocess_c_file(file):
     """Load file and strip comments
     """
@@ -32,6 +33,8 @@ def _preprocess_c_file(file):
     return file_contents.replace('\\\n', '')
 
 
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 def strip_line_comment(string):
     """Removes comments from a single line string.
     """
@@ -66,7 +69,13 @@ def find_layouts(file):
     parsed_layouts = {}
 
     # Search the file for LAYOUT macros and aliases
+<<<<<<< HEAD
     file_contents = _preprocess_c_file(file)
+=======
+    file_contents = file.read_text(encoding='utf-8')
+    file_contents = comment_remover(file_contents)
+    file_contents = file_contents.replace('\\\n', '')
+>>>>>>> 092e65ec9d (fixing this branch)
 
     for line in file_contents.split('\n'):
         if layout_macro_define_regex.match(line.lstrip()) and '(' in line and 'LAYOUT' in line:
@@ -211,6 +220,7 @@ def _coerce_led_token(_type, value):
         return value_map[value]
 
 
+<<<<<<< HEAD
 def _validate_led_config(matrix, matrix_rows, matrix_indexes, position, position_raw, flags):
     # TODO: Improve crude parsing/validation
     if len(matrix) != matrix_rows and len(matrix) != (matrix_rows / 2):
@@ -228,6 +238,15 @@ def _validate_led_config(matrix, matrix_rows, matrix_indexes, position, position
 def _parse_led_config(file, matrix_cols, matrix_rows):
     """Return any 'raw' led/rgb matrix config
     """
+=======
+def _parse_led_config(file, matrix_cols, matrix_rows):
+    """Return any 'raw' led/rgb matrix config
+    """
+    file_contents = file.read_text(encoding='utf-8')
+    file_contents = comment_remover(file_contents)
+    file_contents = file_contents.replace('\\\n', '')
+
+>>>>>>> 092e65ec9d (fixing this branch)
     matrix_raw = []
     position_raw = []
     flags = []
@@ -235,7 +254,11 @@ def _parse_led_config(file, matrix_cols, matrix_rows):
     found_led_config = False
     bracket_count = 0
     section = 0
+<<<<<<< HEAD
     for _type, value in lex(_preprocess_c_file(file), CLexer()):
+=======
+    for _type, value in lex(file_contents, CLexer()):
+>>>>>>> 092e65ec9d (fixing this branch)
         # Assume g_led_config..stuff..;
         if value == 'g_led_config':
             found_led_config = True
@@ -258,21 +281,38 @@ def _parse_led_config(file, matrix_cols, matrix_rows):
                         position_raw.append(_coerce_led_token(_type, value))
                     if section == 3 and bracket_count == 2:
                         flags.append(_coerce_led_token(_type, value))
+<<<<<<< HEAD
                 elif _type in [Token.Comment.Preproc]:
                     # TODO: Promote to error
                     return None
+=======
+>>>>>>> 092e65ec9d (fixing this branch)
 
     # Slightly better intrim format
     matrix = list(_get_chunks(matrix_raw, matrix_cols))
     position = list(_get_chunks(position_raw, 2))
     matrix_indexes = list(filter(lambda x: x is not None, matrix_raw))
 
+<<<<<<< HEAD
     # If we have not found anything - bail with no error
     if not section:
         return None
 
     # Throw any validation errors
     _validate_led_config(matrix, matrix_rows, matrix_indexes, position, position_raw, flags)
+=======
+    # If we have not found anything - bail
+    if not section:
+        return None
+
+    # TODO: Improve crude parsing/validation
+    if len(matrix) != matrix_rows and len(matrix) != (matrix_rows / 2):
+        raise ValueError("Unable to parse g_led_config matrix data")
+    if len(position) != len(flags):
+        raise ValueError("Unable to parse g_led_config position data")
+    if len(matrix_indexes) and (max(matrix_indexes) >= len(flags)):
+        raise ValueError("OOB within g_led_config matrix data")
+>>>>>>> 092e65ec9d (fixing this branch)
 
     return (matrix, position, flags)
 
