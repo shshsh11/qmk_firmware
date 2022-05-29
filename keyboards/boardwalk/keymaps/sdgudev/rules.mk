@@ -19,4 +19,4 @@ RGB_MATRIX_ENABLE = no
 LAYOUTS = ortho_5x14
 
 LTO_ENABLE = yes
-SRC += features/caps_word.c
+CAPS_WORD_ENABLE = yes

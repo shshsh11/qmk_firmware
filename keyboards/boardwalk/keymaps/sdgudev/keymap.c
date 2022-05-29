@@ -15,7 +15,7 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_steno.h"
-#include "features/caps_word.h"
+
 
 enum layers {
     _MAIN,
@@ -309,7 +309,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  if (!process_caps_word(keycode, record)) { return false; }
+  // if (!process_caps_word(keycode, record)) { return false; }
 
   switch (keycode) {
     case LOWER:
@@ -366,17 +366,49 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void led_set_user(uint8_t usb_led) {
-    if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
-        DDRB |= (1 << 2); PORTB &= ~(1 << 2);
-        rgblight_setrgb(25, 25, 255);
-    } else {
-        DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
-        rgblight_setrgb(0, 0, 0);
+// void led_set_user(uint8_t usb_led) {
+
+//     if (is_caps_word_on()) {
+//       DDRB |= (1 << 2); PORTB &= ~(1 << 2);
+//       rgblight_setrgb(25, 25, 255);
+//     } else {
+//       layer_state_set_user(layer_state);
+//       // rgblight_setrgb(0, 0, 0);
+//     }
+
+//     // if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
+//     //     DDRB |= (1 << 2); PORTB &= ~(1 << 2);
+        
+//     // } else {
+//     //     DDRB &= ~(1 << 2); PORTB &= ~(1 << 2);
+        
+//     // }
+// }
+
+
+void matrix_scan_user(void) {
+  if (is_caps_word_on()) {
+      rgblight_setrgb(25, 25, 255);
+    } 
+    else {
+      layer_state_set_user(layer_state);
     }
 }
 
+
 uint32_t layer_state_set_user(uint32_t state) {
+  switch (biton32(state)) {
+    // case _RAISE:
+    //   rgblight_setrgb(0xFF, 0x00, 0x00);
+    //   break;
+    default: //_DEFLT
+      rgblight_setrgb(0,0,0);
+      break;
+
+  }
+
+  return state;
+
 //   // if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
 //   //   rgblight_setrgb(0, 170, 196);
 //   // }

@@ -9,7 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General Public License 
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -37,7 +37,7 @@
 // - COMBO_NO_TIMER on: doesn't seem to have an effect for my use case, I think partially because my combo is short and partially because it's a mod
 #define EXTRA_SHORT_COMBOS
 // - EXTRA_SHORT_COMBOS on: didn't seem to have any effect, but I can keep it on since my combos are short
-
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
 
 
