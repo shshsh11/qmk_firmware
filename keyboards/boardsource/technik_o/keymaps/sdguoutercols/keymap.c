@@ -430,6 +430,20 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
   }
 }
 
+
+uint16_t get_combo_term(uint16_t index, combo_t *combo) {
+
+    switch (index) {
+        case ESCCOMBO:
+            return 50;
+    }
+    
+    return COMBO_TERM;
+}
+
+
+
+
 void keyboard_post_init_user(void) {
 
   // rgb_matrix_disable_noeeprom(); // disables Rgb, without saving settings

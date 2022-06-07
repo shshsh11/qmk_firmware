@@ -2,6 +2,7 @@
 #define FORCE_NKRO
 
 #define COMBO_TERM 35
+#define COMBO_TERM_PER_COMBO
 // #define COMBO_ONLY_FROM_LAYER 0
 
 #define TAPPING_TERM 200
