@@ -50,9 +50,6 @@
   - one handed experimental mirror layout, but automatically switch to a normal one if rhside of keyboard is used
   - misc
   - redefine all single letter keys to be KC_AAAA or something so that line lengths are easier to deal with
-  - some combos can have a longer term, like l/ for =, since those sequences are unlikely to be bigrams new thing
-  - tap dance for closing brackets
-  - combo orders
   
   
   @@@@@ addressed @@@@@
@@ -81,6 +78,7 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_steno.h"
+#include "features/caps_word.h"
 #include "keymap.h"
 
 enum layers {
@@ -110,6 +108,8 @@ enum custom_keycodes {
 enum combo_events {
   GRVCOMBO,
   EQLCOMBO,
+  BRIEFAND,
+  // BRIEFFUNCTION,
   RHNUMPADLAYERCOMBO,
   LHCTRL,
   LHSHFT,
@@ -122,6 +122,27 @@ enum combo_events {
   RHGUI,
   RHALTSHFT,
   NEXTSENTDOT,
+  // LH1,
+  // LH2,
+  // LH3,
+  // LH4,
+  // LH5,
+  // LH6,
+  // LH7,
+  // LH8,
+  // LH9,
+  // LH0,
+  // RH1,
+  // RH2,
+  // RH3,
+  // RH4,
+  // RH5,
+  // RH6,
+  // RH7,
+  // RH8,
+  // RH9,
+  // RH0,
+  
   COMBOLENGTH,
 };
 
@@ -140,80 +161,67 @@ uint16_t COMBO_LEN = COMBOLENGTH;
 #define SHFT_W RSFT_T(KC_W)
 #define CTRL_G RCTL_T(KC_G)
 
-#define LOS_G OSM(MOD_LGUI)
-#define LOS_A OSM(MOD_LALT)
-#define LOS_S OSM(MOD_LSFT)
-#define LOS_C OSM(MOD_LCTL)
-
-#define ROS_G OSM(MOD_RGUI)
-#define ROS_A OSM(MOD_RALT)
-#define ROS_S OSM(MOD_RSFT)
-#define ROS_C OSM(MOD_RCTL)
-
 // this is for other stuff in precondition's keymap
 uint16_t last_keycode = KC_NO;
 // ',.p lrcg
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    // KC_TAB,     KC_ENT,      KC_SLSH, KC_DEL, KC_BSLS, KC_ESC,
-    // KC_EQL 
-
 
     [_MAIN] = LAYOUT_ortho_4x12(
-    KC_QUOT,   KC_COMM,  KC_DOT,   KC_P,       KC_Y,   XXXXXXX, XXXXXXX,    KC_F,    KC_G,        KC_C,      KC_R,     KC_L, 
-    KC_A,      KC_O,     KC_E,     KC_U,       KC_I,   XXXXXXX, XXXXXXX,    KC_D,    KC_H,        KC_T,      KC_N,     KC_S,
-    KC_SCLN,   KC_Q,     KC_J,     KC_K,       KC_X,   XXXXXXX, XXXXXXX,    KC_B,    KC_M,        KC_W,      KC_V,     KC_Z,
-    KC_CAPS,   XXXXXXX,  KC_LALT,  TT(_LOWER), KC_SPC, XXXXXXX, XXXXXXX,    KC_BSPC, TT(_RAISE),  KC_RALT,   XXXXXXX,  XXXXXXX
+    KC_TAB,     KC_QUOT,          KC_COMM,  KC_DOT,   CTRL_P,   KC_Y,     KC_F,     CTRL_G, KC_C,     KC_R,     KC_L,     KC_SLSH,  
+    XXXXXXX,    KC_A,             KC_O,     KC_E,     KC_U,     KC_I,     KC_D,     KC_H,   KC_T,     KC_N,     KC_S,     KC_ENT, 
+    XXXXXXX,    GUI_SC,           KC_Q,     KC_J,     KC_K,     KC_X,     KC_B,     KC_M,   KC_W,     KC_V,     GUI_Z,    XXXXXXX,  \
+    XXXXXXX,    KC_CAPS,          XXXXXXX,  KC_LALT,  TT(_LOWER),    KC_SPC,   KC_BSPC,  TT(_RAISE),  KC_RALT,  XXXXXXX,  XXXXXXX,  XXXXXXX
     ),
 
-    // [_MAIN2] = LAYOUT_ortho_4x12(
-    // KC_TAB,     KC_Y,        KC_P,     KC_O,     KC_U,     KC_J,     KC_K,     KC_D,   KC_L,     KC_C,     KC_W,     KC_QUOT,  
-    // KC_LCTL,    KC_I,        KC_N,     KC_E,     KC_A,     KC_COMM,  KC_M,     KC_H,   KC_T,     KC_S,     KC_R,     KC_ENT, 
-    // XXXXXXX,    KC_Q,        KC_Z,     KC_SLSH,  KC_DOT,   KC_SCLN,  KC_B,     KC_F,   KC_G,     KC_V,     KC_X,    XXXXXXX,  
-    // XXXXXXX,    KC_CAPS,     KC_LGUI,  KC_LALT,  TT(_LOWER),    KC_SPC,   KC_BSPC,  TT(_RAISE),  KC_RALT,  XXXXXXX,  XXXXXXX,  XXXXXXX
-    // ),xxxxxxx--xxxx
+    [_MAIN2] = LAYOUT_ortho_4x12(
+    KC_TAB,     KC_Y,        KC_P,     KC_O,     KC_U,     KC_J,     KC_K,     KC_D,   KC_L,     KC_C,     KC_W,     KC_QUOT,  
+    KC_LCTL,    KC_I,        KC_N,     KC_E,     KC_A,     KC_COMM,  KC_M,     KC_H,   KC_T,     KC_S,     KC_R,     KC_ENT, 
+    XXXXXXX,    KC_Q,        KC_Z,     KC_SLSH,  KC_DOT,   KC_SCLN,  KC_B,     KC_F,   KC_G,     KC_V,     KC_X,    XXXXXXX,  \
+    XXXXXXX,    KC_CAPS,     KC_LGUI,  KC_LALT,  TT(_LOWER),    KC_SPC,   KC_BSPC,  TT(_RAISE),  KC_RALT,  XXXXXXX,  XXXXXXX,  XXXXXXX
+    ),
 
 
     [_LOWER] = LAYOUT_ortho_4x12(
-    LOS_G,        LOS_A,          LOS_S,        LOS_C,        LCTL(KC_Z), _______,    _______, _______,     _______,  KC_PIPE,   KC_BSLS,  KC_SLSH,
-    KC_TAB,       KC_LBRC,        KC_LCBR,      KC_LPRN,      KC_MINS,    _______,    _______, _______,     KC_RPRN,  KC_RCBR,   KC_RBRC,  KC_ENT,
-    LCTL(KC_C),   LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S),   KC_ENT,    _______,    _______, _______,     _______,  _______,   _______,  _______,
-    _______,      _______,        _______,      _______,      _______,    _______,    _______, _______,     _______,  _______,   _______,  _______  
+    KC_ESC,     LCTL(KC_C),   LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S),   LCTL(KC_Z), LCTL(KC_Y),  _______,  _______,   _______,  _______,  KC_BSLS,   \
+    _______,    LCTL(KC_A),   KC_LBRC,        KC_LCBR,      KC_LPRN,      KC_MINS,    _______,     KC_RPRN,  KC_RCBR,   KC_RBRC,  _______,  _______,   \
+    _______,    _______,      _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______,  _______,  _______,   \
+    _______,    _______,      _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______,  _______,  _______    
     ),  
 
     [_RAISE] = LAYOUT_ortho_4x12(
-    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,    _______,    _______,    SYMBOL2,    ROS_C,      ROS_S,    ROS_A,    ROS_G,
-    KC_6,       KC_7,       KC_8,       KC_9,       KC_0,    _______,    _______,    SYMBOL,     KC_LEFT,    KC_DOWN,  KC_UP,    KC_RIGHT,
-    KC_COLN,    KC_COMM,    KC_DOT,     KC_EQL,     KC_ENT,  _______,    _______,    KC_DEL,     KC_HOME,    KC_PGDN,  KC_PGUP,  KC_END,
-    KC_PLUS,    KC_MINS,    KC_SLSH,    _______,    _______, _______,    _______,    _______,    _______,    _______,  _______,  _______ 
+    _______,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_PLUS,    SYMBOL,    SYMBOL2,  _______,  _______,  _______,  \
+    _______,    KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_LEFT,    KC_DOWN,  KC_UP,    KC_RIGHT, KC_DEL,   \
+    _______,    KC_COLN,    KC_COMM,    KC_DOT,    _______,     KC_ENT,     KC_SLSH,    KC_HOME,    KC_PGDN,  KC_PGUP,  KC_END,  _______,  \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______,  _______  
     ),  
 
     [_SYMBOL] = LAYOUT_ortho_4x12(
-    KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC, _______,    _______,    _______,    _______,  _______,  _______, _______,
-    KC_CIRC,    KC_AMPR,    KC_ASTR,    _______,    KC_UNDS, _______,    _______,    _______,    _______,  _______,  _______, _______,
-    KC_COLN,    KC_COMM,    KC_DOT,     _______,    _______, _______,    _______,    _______,    _______,  _______,  _______, _______,
-    _______,    _______,    _______,    _______,    _______, _______,    _______,    _______,    _______,  _______,  _______, _______  
+    _______,    KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC,      _______,    _______,    _______,  _______,  _______, KC_PIPE,  \
+    _______,    KC_CIRC,    KC_AMPR,    KC_ASTR,    _______,    KC_UNDS,     _______,    _______,    _______,  _______,  _______, _______,   \
+    _______,    KC_COLN,    KC_COMM,     KC_DOT,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______  
     ),
 
     [_SYMBOL2] = LAYOUT_ortho_4x12(
-    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,     _______,      _______,    _______,    _______,  _______,  _______, _______,
-    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,     _______,    _______,    _______,  _______,  _______, _______,
-    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,
-    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______
+    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,     _______,      _______,    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,     _______,    _______,    _______,  _______,  _______, _______,   \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______  
     ),  
 
     [_MISCFUNCS] = LAYOUT_ortho_4x12(
-    KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,   _______,   _______,    _______,    MAC_PSCRR,  MAC_PSCR, KC_INS,   KC_PSCR,
-    KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,  _______,   _______,    _______,    _______,    _______,  _______,  _______,
-    KC_F11,     KC_F12,     _______,    _______,    _______, _______,   _______,    _______,    _______,    _______,  _______,  _______,
-    _______,    _______,    _______,    _______,    _______, _______,   _______,    _______,    _______,    _______,  _______,  _______
+    _______,    KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      _______,    MAC_PSCRR,    MAC_PSCR,  _______,  KC_PSCR, KC_INS,  \
+    _______,    KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     _______,    _______,    _______,  _______,  _______, _______,   \
+    _______,    KC_F11,     KC_F12,     _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______  
     ),  
 
     [_ADJUST] = LAYOUT_ortho_4x12(
-    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______, _______,    DF(_MAIN),  _______,    _______,    ST_GEM,     ST_BOLT,    RESET,
-    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______, _______,    DF(_MAIN2), _______,    _______,    _______,    _______,    _______,
-    CMB_TOG,    _______,    _______,    _______,    _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,
-    RGB_TOG,    _______,    _______,    _______,    _______, _______,    _______,    _______,    _______,    STN_PWR,    STN_RE1,    STN_RE2
+    _______,    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,    ST_GEM,     ST_BOLT,    RESET,    \
+    _______,    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_MAIN2),   _______,    _______,    _______,    _______,    _______,    \
+    _______,    CMB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    \
+    RGB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    STN_PWR,    STN_RE1,    STN_RE2 
     ),
 
     [_PLOVER] = LAYOUT_ortho_4x12(
@@ -232,7 +240,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  // if (!process_caps_word(keycode, record)) { return false; }
+  if (!process_caps_word(keycode, record)) { return false; }
 
   switch (keycode) {
     case LOWER:
@@ -361,8 +369,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    // if (host_keyboard_led_state().caps_lock) {
-    if (is_caps_word_on()) {
+    if (host_keyboard_led_state().caps_lock) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             // if the led position has the flag for keylight
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
@@ -372,28 +379,36 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     }
 }
 
-// void caps_word_set_user(bool active) {
-//   if (active) {
-//       for (uint8_t i = led_min; i <= led_max; i++) {
-//           // if the led position has the flag for keylight
-//           if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
-//               rgb_matrix_set_color(i, 0, 170, 196);
-//           }
-//       }
-//   } else {
-//     rgb_matrix_sethsv_noeeprom(0, 0, 0);
-//   }
-// }
-
-
-
 
 
 // add briefs. 'for', 'that', 'this' etc.
 // add some programming briefs like 'function'?
-const uint16_t PROGMEM grvcombo[] = {KC_TAB, KC_LBRC, COMBO_END};
-// const uint16_t PROGMEM eqlcombo[] = {KC_L, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM grvcombo[] = {KC_TAB, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM eqlcombo[] = {KC_L, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM rhnumpadlayercombo[] = {KC_BSPC, TT(_RAISE), COMBO_END};
+
+// const uint16_t PROGMEM lhnumpadlayer[] = {KC_SPC, LOWER, COMBO_END};
+// const uint16_t PROGMEM lh1[] = {KC_QUOT, KC_COMM, COMBO_END};
+// const uint16_t PROGMEM lh2[] = {KC_QUOT, KC_DOT, COMBO_END};
+// const uint16_t PROGMEM lh3[] = {KC_QUOT, KC_P, COMBO_END};
+// const uint16_t PROGMEM lh4[] = {KC_COMM, KC_DOT, COMBO_END};
+// const uint16_t PROGMEM lh5[] = {KC_COMM, KC_P, COMBO_END};
+// const uint16_t PROGMEM lh6[] = {KC_A, KC_O, COMBO_END};
+// const uint16_t PROGMEM lh7[] = {KC_A, KC_E, COMBO_END};
+// const uint16_t PROGMEM lh8[] = {KC_A, KC_U, COMBO_END};
+// const uint16_t PROGMEM lh9[] = {KC_O, KC_E, COMBO_END};
+// const uint16_t PROGMEM lh0[] = {KC_O, KC_U, COMBO_END};
+
+// const uint16_t PROGMEM rh1[] = {KC_L, KC_R, COMBO_END};
+// const uint16_t PROGMEM rh2[] = {KC_L, KC_C, COMBO_END};
+// const uint16_t PROGMEM rh3[] = {KC_L, KC_G, COMBO_END};
+// const uint16_t PROGMEM rh4[] = {KC_C, KC_R, COMBO_END};
+// const uint16_t PROGMEM rh5[] = {KC_G, KC_R, COMBO_END};
+// const uint16_t PROGMEM rh6[] = {KC_S, KC_N, COMBO_END};
+// const uint16_t PROGMEM rh7[] = {KC_S, KC_T, COMBO_END};
+// const uint16_t PROGMEM rh8[] = {KC_S, KC_H, COMBO_END};
+// const uint16_t PROGMEM rh9[] = {KC_T, KC_N, COMBO_END};
+// const uint16_t PROGMEM rh0[] = {KC_N, KC_H, COMBO_END};
 
 const uint16_t PROGMEM lhctrl[] = {KC_U, KC_P, COMBO_END};
 const uint16_t PROGMEM lhshft[] = {KC_O, KC_DOT, COMBO_END};
@@ -410,18 +425,49 @@ const uint16_t PROGMEM rhaltshft[] = {KC_N, KC_R, KC_C, COMBO_END};
 
 const uint16_t PROGMEM briefand[] = {KC_A, KC_O, KC_DOT, COMBO_END};
 const uint16_t PROGMEM nextsentdot[] = {KC_COMM, KC_DOT, KC_C, KC_R, COMBO_END}; 
+// const uint16_t PROGMEM brieffunction[] = {KC_COMM, KC_DOT, KC_M, KC_T, KC_N, KC_S, COMBO_END};
 
 
 combo_t key_combos[] = {
     [GRVCOMBO] = COMBO(grvcombo, KC_GRV),
-    // [EQLCOMBO] = COMBO(eqlcombo, KC_EQL),
+    [EQLCOMBO] = COMBO(eqlcombo, KC_EQL),
     [RHNUMPADLAYERCOMBO] = COMBO(rhnumpadlayercombo, MO(_MISCFUNCS)),
 
-
+    // [LHCTRL] = COMBO(lhctrl, KC_LCTL),
     [LHSHFT] = COMBO(lhshft, OSM(MOD_LSFT)),
+    // [LHALT] = COMBO(lhalt, KC_LALT),
+    // [LHGUI] = COMBO(lhgui, KC_LGUI),
+    // [LHALTSHFT] = COMBO_ACTION(lhaltshft),
+    // [RHCTRL] = COMBO(rhctrl, KC_RCTL),
     [RHSHFT] = COMBO(rhshft, OSM(MOD_RSFT)),
+    // [RHALT] = COMBO(rhalt, KC_RALT),
+    // [RHGUI] = COMBO(rhgui, KC_RGUI),
+    // [RHALTSHFT] = COMBO_ACTION(rhaltshft),
     [NEXTSENTDOT] = COMBO_ACTION(nextsentdot),
+    // [LH1] = COMBO(lh1, KC_1),
+    // [LH2] = COMBO(lh2, KC_2),
+    // [LH3] = COMBO(lh3, KC_3),
+    // [LH4] = COMBO(lh4, KC_4),
+    // [LH5] = COMBO(lh5, KC_5),
+    // [LH6] = COMBO(lh6, KC_6),
+    // [LH7] = COMBO(lh7, KC_7),
+    // [LH8] = COMBO(lh8, KC_8),
+    // [LH9] = COMBO(lh9, KC_9),
+    // [LH0] = COMBO(lh0, KC_0),
+    // [RH1] = COMBO(rh1, KC_1),
+    // [RH2] = COMBO(rh2, KC_2),
+    // [RH3] = COMBO(rh3, KC_3),
+    // [RH4] = COMBO(rh4, KC_4),
+    // [RH5] = COMBO(rh5, KC_5),
+    // [RH6] = COMBO(rh6, KC_6),
+    // [RH7] = COMBO(rh7, KC_7),
+    // [RH8] = COMBO(rh8, KC_8),
+    // [RH9] = COMBO(rh9, KC_9),
+    // [RH0] = COMBO(rh0, KC_0),
 
+    // [BRIEFAND] = COMBO_ACTION(briefand),
+    // [BRIEFFUNCTION] = COMBO_ACTION(brieffunction),
+    // COMBO(lhnumpadlayer, MO(_MISCFUNCS)),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -440,6 +486,35 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         }
       }
       break;
+    case LHALTSHFT:
+      if (pressed) {
+        register_code(KC_LSFT);
+        register_code(KC_LALT);
+      } else {
+        unregister_code(KC_LALT);
+        unregister_code(KC_LSFT);
+      }
+      break;
+    case RHALTSHFT:
+      if (pressed) {
+        register_code(KC_RSFT);
+        register_code(KC_RALT);
+      } else {
+        unregister_code(KC_RALT);
+        unregister_code(KC_RSFT);
+      }
+      break;
+    case BRIEFAND:
+      if (pressed) {
+        SEND_STRING(" and");
+      }
+      break;
+    // case BRIEFFUNCTION:
+    //   if (pressed) {
+    //     SEND_STRING("function");
+    //   }
+    //   break;
+    
   }
 }
 
