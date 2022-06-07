@@ -111,16 +111,9 @@ enum combo_events {
   GRVCOMBO,
   EQLCOMBO,
   RHNUMPADLAYERCOMBO,
-  LHCTRL,
+  ESCCOMBO,
   LHSHFT,
-  LHALT,
-  LHGUI,
-  LHALTSHFT,
-  RHCTRL,
   RHSHFT,
-  RHALT,
-  RHGUI,
-  RHALTSHFT,
   NEXTSENTDOT,
   COMBOLENGTH,
 };
@@ -155,8 +148,8 @@ uint16_t last_keycode = KC_NO;
 // ',.p lrcg
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    // KC_TAB,     KC_ENT,      KC_SLSH, KC_DEL, KC_BSLS, KC_ESC,
-    // KC_EQL 
+    // KC_TAB,     KC_ENT,      KC_SLSH, KC_DEL, KC_BSLS, , KC_EQL 
+    // KC_ESC
 
 
     [_MAIN] = LAYOUT_ortho_4x12(
@@ -391,22 +384,15 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
 // add briefs. 'for', 'that', 'this' etc.
 // add some programming briefs like 'function'?
-const uint16_t PROGMEM grvcombo[] = {KC_TAB, KC_LBRC, COMBO_END};
+const uint16_t PROGMEM grvcombo[] = {KC_QUOT, KC_COMM, COMBO_END};
+const uint16_t PROGMEM esccombo[] = {KC_TAB, KC_LBRC, COMBO_END};
 // const uint16_t PROGMEM eqlcombo[] = {KC_L, KC_SLSH, COMBO_END};
 const uint16_t PROGMEM rhnumpadlayercombo[] = {KC_BSPC, TT(_RAISE), COMBO_END};
 
-const uint16_t PROGMEM lhctrl[] = {KC_U, KC_P, COMBO_END};
+
 const uint16_t PROGMEM lhshft[] = {KC_O, KC_DOT, COMBO_END};
-const uint16_t PROGMEM lhalt[] = {KC_O, KC_COMM, COMBO_END};
-const uint16_t PROGMEM lhgui[] = {KC_A, KC_QUOT, COMBO_END};
-const uint16_t PROGMEM lhaltshft[] = {KC_O, KC_COMM, KC_DOT, COMBO_END};
-
-
-const uint16_t PROGMEM rhctrl[] = {KC_H, KC_G, COMBO_END};
 const uint16_t PROGMEM rhshft[] = {KC_N, KC_C, COMBO_END};
-const uint16_t PROGMEM rhalt[] = {KC_N, KC_R, COMBO_END};
-const uint16_t PROGMEM rhgui[] = {KC_S, KC_L, COMBO_END};
-const uint16_t PROGMEM rhaltshft[] = {KC_N, KC_R, KC_C, COMBO_END};
+
 
 const uint16_t PROGMEM briefand[] = {KC_A, KC_O, KC_DOT, COMBO_END};
 const uint16_t PROGMEM nextsentdot[] = {KC_COMM, KC_DOT, KC_C, KC_R, COMBO_END}; 
@@ -414,6 +400,7 @@ const uint16_t PROGMEM nextsentdot[] = {KC_COMM, KC_DOT, KC_C, KC_R, COMBO_END};
 
 combo_t key_combos[] = {
     [GRVCOMBO] = COMBO(grvcombo, KC_GRV),
+    [ESCCOMBO] = COMBO(esccombo, KC_ESC),
     // [EQLCOMBO] = COMBO(eqlcombo, KC_EQL),
     [RHNUMPADLAYERCOMBO] = COMBO(rhnumpadlayercombo, MO(_MISCFUNCS)),
 
