@@ -78,7 +78,6 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap_steno.h"
-#include "features/caps_word.h"
 #include "keymap.h"
 
 enum layers {
@@ -240,7 +239,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  if (!process_caps_word(keycode, record)) { return false; }
+  // if (!process_caps_word(keycode, record)) { return false; }
 
   switch (keycode) {
     case LOWER:
@@ -369,7 +368,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock) {
+    // if (host_keyboard_led_state().caps_lock) {
+    if (is_caps_word_on()) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             // if the led position has the flag for keylight
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
@@ -378,6 +378,21 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         }
     }
 }
+
+// void caps_word_set_user(bool active) {
+//   if (active) {
+//       for (uint8_t i = led_min; i <= led_max; i++) {
+//           // if the led position has the flag for keylight
+//           if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
+//               rgb_matrix_set_color(i, 0, 170, 196);
+//           }
+//       }
+//   } else {
+//     rgb_matrix_sethsv_noeeprom(0, 0, 0);
+//   }
+// }
+
+
 
 
 

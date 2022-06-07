@@ -28,8 +28,8 @@ RGB_MATRIX_DRIVER = WS2812
 LAYOUTS = ortho_4x12
 
 LTO_ENABLE = yes
+CAPS_WORD_ENABLE = yes
 
-SRC += features/caps_word.c
 ifeq ($(strip $(TAP_DANCE_ENABLE)), yes)
 	SRC += features/tapdance.c
 endif
