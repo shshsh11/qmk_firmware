@@ -386,14 +386,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // }
 
 
-void matrix_scan_user(void) {
-  if (is_caps_word_on()) {
-      rgblight_setrgb(25, 25, 255);
-    } 
-    else {
-      layer_state_set_user(layer_state);
+
+void caps_word_set_user(bool active) {
+    if (active) {
+        rgblight_setrgb(25, 25, 255);
+    } else {
+        rgblight_setrgb(0, 0, 0);
     }
 }
+
+
+// void matrix_scan_user(void) {
+//   if (is_caps_word_on()) {
+//       rgblight_setrgb(25, 25, 255);
+//     } 
+//     else {
+//       layer_state_set_user(layer_state);
+//     }
+// }
 
 
 uint32_t layer_state_set_user(uint32_t state) {
@@ -402,7 +412,11 @@ uint32_t layer_state_set_user(uint32_t state) {
     //   rgblight_setrgb(0xFF, 0x00, 0x00);
     //   break;
     default: //_DEFLT
-      rgblight_setrgb(0,0,0);
+      if (is_caps_word_on()) {
+
+      } else {
+        rgblight_setrgb(0,0,0);
+      }
       break;
 
   }
