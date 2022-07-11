@@ -53,6 +53,7 @@
   - some combos can have a longer term, like l/ for =, since those sequences are unlikely to be bigrams new thing
   - tap dance for closing brackets
   - combo orders
+  - need to improve shift enter
   
   
   @@@@@ addressed @@@@@

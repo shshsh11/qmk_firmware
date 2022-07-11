@@ -51,6 +51,7 @@
   - misc
   - redefine all single letter keys to be KC_AAAA or something so that line lengths are easier to deal with
   - some combos can have a longer term, like l/ for =, since those sequences are unlikely to be bigrams
+  - control + / macro
   
   
   @@@@@ addressed @@@@@
