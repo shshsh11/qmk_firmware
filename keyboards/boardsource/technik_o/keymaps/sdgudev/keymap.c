@@ -184,8 +184,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
     [_LOWER] = LAYOUT_ortho_4x12(
-    KC_ESC,     LCTL(KC_C),   LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S),   LCTL(KC_Z), LCTL(KC_Y),  _______,  _______,   _______,  _______,  KC_BSLS,   \
-    _______,    LCTL(KC_A),   KC_LBRC,        KC_LCBR,      KC_LPRN,      KC_MINS,    _______,     KC_RPRN,  KC_RCBR,   KC_RBRC,  _______,  _______,   \
+    KC_ESC,           LCTL(KC_C),   LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S),   LCTL(KC_Z), LCTL(KC_Y),  _______,  _______,   _______,  _______,  KC_BSLS,   \
+    LCTL(KC_SLSH),    LCTL(KC_A),   KC_LBRC,        KC_LCBR,      KC_LPRN,      KC_MINS,    _______,     KC_RPRN,  KC_RCBR,   KC_RBRC,  _______,  _______,   \
     _______,    _______,      _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______,  _______,  _______,   \
     _______,    _______,      _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______,  _______,  _______    
     ),  
