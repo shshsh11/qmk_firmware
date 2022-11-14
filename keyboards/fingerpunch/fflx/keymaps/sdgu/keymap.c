@@ -20,12 +20,14 @@ enum combo_events {
   RHNUMPADLAYERCOMBO,
   LHSHFT,
   RHSHFT,
+  NEXTSENTDOT,
   COMBOLENGTH,
 };
 
 enum custom_keycodes {
   MAC_PSCRR = SAFE_RANGE,
   MAC_PSCR,
+  
 };
 
 uint16_t COMBO_LEN = COMBOLENGTH;
@@ -50,8 +52,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_MAIN] = LAYOUT_fflx(
     KC_TAB,     KC_QUOT,    KC_COMM,  KC_DOT,     CTRL_P,   KC_Y,     KC_F,       CTRL_G,   KC_C,       KC_R,     KC_L,     KC_SLSH,  
     XXXXXXX,    KC_A,       KC_O,     KC_E,       KC_U,     KC_I,     KC_D,       KC_H,     KC_T,       KC_N,     KC_S,     KC_ENT, 
-    KC_CAPS,    GUI_SC,     KC_Q,     KC_J,       KC_K,     KC_X,     KC_B,       KC_M,     KC_W,       KC_V,     GUI_Z,    KC_GUI,  \
-                            KC_MUTE,  TT(_LOWER), KC_SPC,   KC_LALT,  TT(_MOUSE), KC_BSPC,  TT(_RAISE), KC_RALT,  XXXXXXX
+    KC_CAPS,    GUI_SC,     KC_Q,     KC_J,       KC_K,     KC_X,     KC_B,       KC_M,     KC_W,       KC_V,     GUI_Z,    KC_RGUI,  \
+                            KC_MUTE,  TT(_LOWER), KC_SPC,   KC_LALT,  TT(_MOUSE), KC_BSPC,  TT(_RAISE), XXXXXXX
     ),
 
 /* Lower
@@ -106,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_MOUSE] = LAYOUT_fflx(
     _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
-    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,    KC_BTN2,    KC_BTN3,  _______,  _______, _______,   \
+    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,    KC_BTN3,    KC_BTN2,  _______,  _______, _______,   \
     _______,    _______,    _______,    _______,    _______,    _______,    KC_BTN4,    _______,    KC_BTN5,  _______,  _______, _______,  \
                             _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______
 ),  
@@ -119,8 +121,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),  
 
 [_ADJUST] = LAYOUT_fflx(
-    RGB_TOG,    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,  _______,    _______,    RESET,    \
-    _______,    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_QWERTY),   _______,    _______,  _______,    _______,    _______,    \
+    RGB_TOG,    _______,    KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,  _______,    _______,    RESET,    \
+    _______,    _______,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_QWERTY),   _______,    _______,  _______,    _______,    _______,    \
     _______,    CMB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    \
                             _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
 ),
@@ -227,14 +229,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
-        for (uint8_t i = led_min; i <= led_max; i++) {
-            // if the led position has the flag for keylight
-            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
-                rgb_matrix_set_color(i, 0, 170, 196);
-            }
-        }
+
+void caps_word_set_user(bool active) {
+    if (active) {
+        rgblight_sethsv_noeeprom(HSV_AZURE);
+    } else {
+        rgblight_sethsv_noeeprom(HSV_OFF);
     }
 }
 
@@ -287,8 +287,23 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #endif
 
 
+const rgblight_segment_t PROGMEM my_capslock_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 4, HSV_AZURE}
+);
+
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    my_capslock_layer
+);
+
+bool led_update_user(led_t led_state) {
+    rgblight_set_layer_state(0, led_state.caps_lock);
+    return true;
+}
+
+
 void keyboard_post_init_user(void) {
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_OFF);
+    rgblight_layers = my_rgb_layers;
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_sethsv_noeeprom(HSV_OFF);
 }
 
