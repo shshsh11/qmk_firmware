@@ -1,97 +1,294 @@
-/* Copyright 2021 Sadek Baroudi
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#include "sadekbaroudi.h"
+// #include "sadekbaroudi.h"
 #include QMK_KEYBOARD_H
 
-/*
- * The `LAYOUT_fflx_base` macro is a template to allow the use of identical
- * modifiers for the default layouts (eg ALPHA_ALT, Colemak, Dvorak, etc), so
- * that there is no need to set them up for each layout, and modify all of
- * them if I want to change them.  This helps to keep consistency and ease
- * of use. K## is a placeholder to pass through the individual keycodes
- */
+// Defines names for use in layer keycodes and the keymap
+enum layer_names {
+    _MAIN,
+    _QWERTY,
+    _LOWER,
+    _RAISE,
+    _SYMBOL,
+    _MOUSE,
+    _MISCFUNCS,
+    _ADJUST
+    
+};
 
-// clang-format off
-#define LAYOUT_fflx_base( \
-    K01, K02, K03, K04, K05, K06, K07, K08, K09, K0A, \
-    K11, K12, K13, K14, K15, K16, K17, K18, K19, K1A, \
-    K21, K22, K23, K24, K25, K26, K27, K28, K29, K2A, \
-              K33, K34, K35, K36, K37, K38 \
-  ) \
-  LAYOUT_wrapper( \
-        FP_SCROLL_TOG,   K01,            K02,            K03,            LT(_FUNCTION, K04),     K05,                      K06,                   LT(_FUNCTION, K07),    K08,              K09,            K0A,          KC_BSLS, \
-        KC_MS_BTN1,      LCTL_T(K11),    LGUI_T(K12),    LALT_T(K13),    LSFT_T(K14),            K15,                      LT(_MOUSE, K16),       RSFT_T(K17),           RALT_T(K18),      RGUI_T(K19),    RCTL_T(K1A),  LCTL(KC_V), \
-        FP_SNIPE_TOG,    K21,            K22,            K23,            K24,                    K25,                      K26,                   K27,                   K28,              K29,            K2A,          FP_SUPER_TAB, \
-                                 KC_MUTE,                K33,            LT(_NAVIGATION,K34),    LT(_FUNCTION,K35),        LT(_MEDIA,K36),        LT(_SYMBOLS,K37),      K38,              LCTL(KC_BSPC) \
-    )
+enum combo_events {
+  GRVCOMBO,
+  EQLCOMBO,
+  RHNUMPADLAYERCOMBO,
+  LHSHFT,
+  RHSHFT,
+  COMBOLENGTH,
+};
 
-/* Re-pass though to allow templates to be used */
-#define LAYOUT_fflx_byomcu_base_wrapper(...)       LAYOUT_fflx_base(__VA_ARGS__)
+enum custom_keycodes {
+  MAC_PSCRR = SAFE_RANGE,
+  MAC_PSCR,
+};
+
+uint16_t COMBO_LEN = COMBOLENGTH;
+
+
+#define LOWER MO(_LOWER)
+#define RAISE MO(_RAISE)
+
+#define GUI_SC LGUI_T(KC_SCLN)
+#define ALT_Q  LALT_T(KC_Q)
+#define SHFT_J LSFT_T(KC_J)
+#define CTRL_P LCTL_T(KC_P)
+
+#define GUI_Z  RGUI_T(KC_Z)
+#define ALT_V  RALT_T(KC_V)
+#define SHFT_W RSFT_T(KC_W)
+#define CTRL_G RCTL_T(KC_G)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    [_ALPHA_ALT] = LAYOUT_fflx_byomcu_base_wrapper(
-        _________________ALPHA_ALT_L1_________________, _________________ALPHA_ALT_R1_________________,
-        _________________ALPHA_ALT_L2_________________, _________________ALPHA_ALT_R2_________________,
-        _________________ALPHA_ALT_L3_________________, _________________ALPHA_ALT_R3_________________,
-                                             __ALPHA_ALT_THUMBS_6__
+
+[_MAIN] = LAYOUT_fflx(
+    KC_TAB,     KC_QUOT,    KC_COMM,  KC_DOT,     CTRL_P,   KC_Y,     KC_F,       CTRL_G,   KC_C,       KC_R,     KC_L,     KC_SLSH,  
+    XXXXXXX,    KC_A,       KC_O,     KC_E,       KC_U,     KC_I,     KC_D,       KC_H,     KC_T,       KC_N,     KC_S,     KC_ENT, 
+    KC_CAPS,    GUI_SC,     KC_Q,     KC_J,       KC_K,     KC_X,     KC_B,       KC_M,     KC_W,       KC_V,     GUI_Z,    KC_GUI,  \
+                            KC_MUTE,  TT(_LOWER), KC_SPC,   KC_LALT,  TT(_MOUSE), KC_BSPC,  TT(_RAISE), KC_RALT,  XXXXXXX
     ),
 
-    [_ALPHA] = LAYOUT_fflx_byomcu_base_wrapper(
-        __________________ALPHA_L1____________________, __________________ALPHA_R1____________________,
-        __________________ALPHA_L2____________________, __________________ALPHA_R2____________________,
-        __________________ALPHA_L3____________________, __________________ALPHA_R3____________________,
-                                              __ALPHA_THUMBS_6__
-    ),
+/* Lower
+ *
+ * ,-----------------------------------------.             ,-----------------------------------------.
+ * |      |   !  |   @  |   #  |   $  |   %  |             |   ^  |   &  |   *  |   (  |   )  |      |
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |             |      |   _  |   +  |   {  |   }  |      |
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |      |  Caps|      |      |      |      |             |      |      |      |   |  |   "  |      |
+ * `-----------------------------------------'             `-----------------------------------------'
+ *          ,------.        ,--------------------.    ,--------------------.        ,------.
+ *          | MUTE |        |   \  | Enter| LOWER|    | RAISE| Space| Del  |        | DELW |
+ *          `------'        `--------------------'    `--------------------.        `------'
+ */
+[_LOWER] = LAYOUT_fflx(
+    KC_ESC,           LCTL(KC_C),   LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S),   LCTL(KC_Z), LCTL(KC_Y),  _______,  _______,   _______,  _______,  KC_BSLS,   \
+    LCTL(KC_SLSH),    LCTL(KC_A),   KC_LBRC,        KC_LCBR,      KC_LPRN,      KC_MINS,    _______,     KC_RPRN,  KC_RCBR,   KC_RBRC,  _______,  _______,   \
+    _______,          _______,      _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______,  _______,  _______,   \
+                                    _______,        _______,      _______,      _______,    _______,     _______,  _______,   _______ 
+),  
 
-    [_NAVIGATION] = LAYOUT_wrapper(
-        _______, ________________NAVIGATION_1_______________, _________________NUMPAD_1__________________, _______,
-        _______, ________________NAVIGATION_2_______________, _________________NUMPAD_2__________________, _______,
-        _______, ________________NAVIGATION_3_______________, _________________NUMPAD_3__________________, _______,
-                           _______, _______, _______, KC_TAB, KC_BSPC, KC_SPACE, KC_DOT, _______
-    ),
 
-    [_SYMBOLS] = LAYOUT_wrapper(
-        _______, ________________SYMBOLS_L1_________________, ________________SYMBOLS_R1_________________, _______,
-        _______, ________________SYMBOLS_L2_________________, ________________SYMBOLS_R2_________________, _______,
-        _______, ________________SYMBOLS_L3_________________, ________________SYMBOLS_R3_________________, _______,
-                           _______, _______, KC_ENT, KC_DEL,  KC_BSPC, _______, _______, _______
-    ),
+/* Raise
+ *
+ * ,-----------------------------------------.             ,-----------------------------------------.
+ * |      |   !  |   @  |   #  |   $  |   %  |             |   ^  |   &  |   *  |   (  |   )  |      |
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |      |      |      |      |      |      |             |      |   _  |   +  |   {  |   }  |      |
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |      |  Caps|      |      |      |      |             |      |      |      |   |  |   "  |      |
+ * `-----------------------------------------'             `-----------------------------------------'
+ *          ,------.        ,--------------------.    ,--------------------.        ,------.
+ *          | MUTE |        |   \  | Enter| LOWER|    | RAISE| Space| Del  |        | DELW |
+ *          `------'        `--------------------'    `--------------------.        `------'
+ */
 
-    [_FUNCTION] = LAYOUT_wrapper(
-        _______, ________________SHIFTNAV_1_________________, ________________FUNCTION_1_________________, _______,
-        _______, ________________SHIFTNAV_2_________________, ________________FUNCTION_2_________________, _______,
-        _______, ________________SHIFTNAV_3_________________, ________________FUNCTION_3_________________, _______,
-                          _______, _______, _______, _______, N_DEL_LINE, KC_SPACE, _______, _______
-    ),
+[_RAISE] = LAYOUT_fflx(
+    _______,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_PLUS,    MO(_SYMBOL), MO(_MOUSE),  _______,  _______,  _______,  \
+    _______,    KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_LEFT,     KC_DOWN,  KC_UP,    KC_RIGHT, KC_DEL,   \
+    _______,    KC_COLN,    KC_COMM,    KC_DOT,    _______,     KC_ENT,     KC_SLSH,    KC_HOME,     KC_PGDN,  KC_PGUP,  KC_END,  _______,  \
+                            _______,    _______,    _______,    _______,    _______,    _______,     _______,  _______
+),  
 
-    [_MEDIA] = LAYOUT_wrapper(
-        _______, ___________________RGB_1___________________, _________________MACROS_1__________________, _______,
-        _______, ___________________RGB_2___________________, _________________MACROS_2__________________, _______,
-        _______, ___________________RGB_3___________________, _________________MACROS_3__________________, _______,
-                          _______, _______, _______, _______, _______, _______, _______, _______
-    ),
 
-    [_MOUSE] = LAYOUT_wrapper(
-        _______, _______________AUTO_MOUSE_1________________, ___________________BLANK___________________, _______,
-        _______, _______________AUTO_MOUSE_2________________, ___________________BLANK___________________, _______,
-        _______, _______________AUTO_MOUSE_3________________, ___________________BLANK___________________, _______,
-                    _______, _______, KC_MS_BTN1, KC_MS_BTN3, KC_MS_BTN3, KC_MS_BTN2, _______, _______
-    ),
+[_SYMBOL] = LAYOUT_fflx(
+    _______,    KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC,      _______,    _______,    _______,  _______,  _______, KC_PIPE,  \
+    _______,    KC_CIRC,    KC_AMPR,    KC_ASTR,    _______,    KC_UNDS,     _______,    _______,    _______,  _______,  _______, _______,   \
+    _______,    KC_COLN,    KC_COMM,     KC_DOT,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+                            _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______
+),
+
+[_MOUSE] = LAYOUT_fflx(
+    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,    KC_BTN2,    KC_BTN3,  _______,  _______, _______,   \
+    _______,    _______,    _______,    _______,    _______,    _______,    KC_BTN4,    _______,    KC_BTN5,  _______,  _______, _______,  \
+                            _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______
+),  
+
+[_MISCFUNCS] = LAYOUT_fflx(
+    _______,    KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      _______,    MAC_PSCRR,    MAC_PSCR,  _______,  KC_PSCR, KC_INS,  \
+    _______,    KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     _______,    _______,    _______,  _______,  _______, _______,   \
+    _______,    KC_F11,     KC_F12,     _______,    _______,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
+                            _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______ 
+),  
+
+[_ADJUST] = LAYOUT_fflx(
+    RGB_TOG,    PLOVER,     KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,  _______,    _______,    RESET,    \
+    _______,    EXT_PLV,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_QWERTY),   _______,    _______,  _______,    _______,    _______,    \
+    _______,    CMB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    \
+                            _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
+),
+
+// [_MOUSE] =  LAYOUT_fflx(
+//   _______, _______, KC_WH_U, _______, KC_WH_D, _______,          _______, _______, _______, _______, _______, _______,
+//   _______, KC_WH_L, KC_BTN3, KC_BTN2, KC_BTN1, KC_WH_R,          _______, _______, _______, _______, _______, _______,
+//   _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______,
+//                     _______, _______, _______, _______,          _______, _______, _______, _______
+// )
+
+/* Qwerty
+ *
+ * ,-----------------------------------------.             ,-----------------------------------------.
+ * |  ESC |   Q  |   W  |   E  |   R  |   T  |             |   Y  |   U  |   I  |   O  |   P  |BckSpc|
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |  TAB |   A  |   S  |   D  |   F  |   G  |             |   H  |   J  |   K  |   L  |   ;  |  '   |
+ * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ * |  SFT |   Z  |   X  |   C  |   V  |   B  |             |   N  |   M  |   ,  |   .  |   /  | SFT  |
+ * `-----------------------------------------'             `-----------------------------------------'
+ *          ,------.        ,--------------------.    ,--------------------.        ,------.
+ *          | MUTE |        |   \  | Enter| LOWER|    | RAISE| Space| Del  |        | DELW |
+ *          `------'        `--------------------'    `--------------------.        `------'
+ */
+// Default config uses home row mods. So hold each of the keys on the home row to use ctrl, gui, alt, or shift
+[_QWERTY] = LAYOUT_fflx(
+  KC_ESC,  KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,         KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,             KC_BSPC,
+  KC_TAB,  LCTL_T(KC_A), LGUI_T(KC_S), LALT_T(KC_D), LSFT_T(KC_F), KC_I,         KC_D,    RSFT_T(KC_J), RALT_T(KC_K), RGUI_T(KC_L), RCTL_T(KC_SCLN),  KC_QUOT,
+  KC_LSFT, KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,         KC_N,    KC_M,         KC_COMM,      KC_DOT,       KC_SLSH,          KC_RSFT,
+                         KC_MUTE,      KC_BSLS,      KC_ENT,       LOWER,        RAISE,   KC_SPC,       KC_DEL,       LCTL(KC_BSPC)
+)
+};
+
+
+const uint16_t PROGMEM lhshft[] = {KC_O, KC_DOT, COMBO_END};
+const uint16_t PROGMEM rhshft[] = {KC_N, KC_C, COMBO_END};
+const uint16_t PROGMEM nextsentdot[] = {KC_COMM, KC_DOT, KC_C, KC_R, COMBO_END}; 
+const uint16_t PROGMEM grvcombo[] = {KC_TAB, KC_QUOT, COMBO_END};
+const uint16_t PROGMEM eqlcombo[] = {KC_L, KC_SLSH, COMBO_END};
+const uint16_t PROGMEM rhnumpadlayercombo[] = {KC_BSPC, TT(_RAISE), COMBO_END};
+
+combo_t key_combos[] = {
+
+    [LHSHFT] = COMBO(lhshft, OSM(MOD_LSFT)),
+    [RHSHFT] = COMBO(rhshft, OSM(MOD_RSFT)),
+    [NEXTSENTDOT] = COMBO_ACTION(nextsentdot),
+    [GRVCOMBO] = COMBO(grvcombo, KC_GRV),
+    [EQLCOMBO] = COMBO(eqlcombo, KC_EQL),
+    [RHNUMPADLAYERCOMBO] = COMBO(rhnumpadlayercombo, MO(_MISCFUNCS)),
 
 };
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case NEXTSENTDOT:
+      if (pressed) {
+        if (!(get_mods() & MOD_MASK_SHIFT)) {
+            tap_code(KC_DOT);
+            tap_code(KC_SPC);
+            /* Internal code of OSM(MOD_LSFT) */
+            add_oneshot_mods(MOD_BIT(KC_LSHIFT));
+
+        } else {
+            // send ">" (KC_DOT + shift → ">")
+            tap_code(KC_DOT);
+        }
+      }
+      break;    
+  }
+}
+
+
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
+
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+  // if (!process_caps_word(keycode, record)) { return false; }
+
+  switch (keycode) {
+    case MAC_PSCRR:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_LSFT(SS_LGUI("4"))));
+      } else {
+
+      }
+      return false;
+      break;
+    case MAC_PSCR:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_LSFT("4")));
+      } else {
+
+      }
+      return false;
+      break;
+
+  }
+  return true;
+}
+
+void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+        for (uint8_t i = led_min; i <= led_max; i++) {
+            // if the led position has the flag for keylight
+            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
+                rgb_matrix_set_color(i, 0, 170, 196);
+            }
+        }
+    }
+}
+
+
+#ifdef ENCODER_ENABLE
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    // default behavior if undefined
+    if (index == 0) {
+        // Conditional to reverse the direction of encoder number 1
+        // The reason I have this is that for some of my boards, it supports two different types of encoders, and they may differ in direction
+        #ifdef ENCODERS_A_REVERSE
+        if (!clockwise) {
+        #else
+        if (clockwise) {
+        #endif
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
+        }
+    }
+    else if (index == 1) {
+      // Conditional to reverse the direction of encoder number 1
+      // The reason I have this is that for some of my boards, it supports two different types of encoders, and they may differ in direction
+      #ifdef ENCODERS_B_REVERSE
+      if (!clockwise) {
+      #else
+      if (clockwise) {
+      #endif
+        tap_code16(KC_DOWN);
+      }
+      else{
+        tap_code16(KC_UP);
+      }
+    }
+    else if (index == 2) {
+      #ifdef ENCODERS_C_REVERSE
+      if (!clockwise) {
+      #else
+      if (clockwise) {
+      #endif
+        press_super_tab(true);
+      } else {
+        press_super_tab(false);
+      }
+    }
+
+    return true;
+}
+#endif
+
+
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv_noeeprom(HSV_OFF);
+}
 
