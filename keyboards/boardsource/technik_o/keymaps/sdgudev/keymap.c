@@ -371,7 +371,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     // if (host_keyboard_led_state().caps_lock) {
-    if (is_caps_word_on()) {
+    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             // if the led position has the flag for keylight
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
