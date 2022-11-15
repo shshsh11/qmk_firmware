@@ -54,6 +54,7 @@ ifeq ($(strip $(CIRQUE_ENABLE)), yes)
    POINTING_DEVICE_ENABLE := yes
    POINTING_DEVICE_DRIVER := cirque_pinnacle_i2c
    OPT_DEFS += -DCIRQUE_ENABLE
+   
 endif
 
 FP_EC11_UNDER_PALMS = yes
