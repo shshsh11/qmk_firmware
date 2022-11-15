@@ -11,8 +11,9 @@ enum layer_names {
     _MOUSE,
     _MISCFUNCS,
     _ADJUST
-    
 };
+
+
 
 enum combo_events {
   GRVCOMBO,
@@ -92,10 +93,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_RAISE] = LAYOUT_fflx(
-    _______,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_PLUS,    MO(_SYMBOL), MO(_MOUSE),  _______,  _______,  _______,  \
-    _______,    KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,    KC_LEFT,     KC_DOWN,  KC_UP,    KC_RIGHT, KC_DEL,   \
-    _______,    KC_COLN,    KC_COMM,    KC_DOT,    _______,     KC_ENT,     KC_SLSH,    KC_HOME,     KC_PGDN,  KC_PGUP,  KC_END,  _______,  \
-                            _______,    _______,    _______,    _______,    _______,    _______,     _______,  _______
+    _______,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_PLUS,        KC_BTN1,     KC_BTN3,  KC_BTN2,  KC_BTN4,  KC_BTN5,  \
+    _______,    KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       MO(_SYMBOL),    KC_LEFT,     KC_DOWN,  KC_UP,    KC_RIGHT, KC_DEL,   \
+    _______,    KC_COLN,    KC_COMM,    KC_DOT,    _______,     KC_ENT,     MO(_MISCFUNCS), KC_HOME,     KC_PGDN,  KC_PGUP,  KC_END,  _______,  \
+                            _______,    _______,    _______,    _______,    _______,        _______,     _______,  _______
 ),  
 
 
@@ -107,10 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_MOUSE] = LAYOUT_fflx(
-    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    _______,    _______,    _______,  _______,  _______, _______,  \
-    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,    KC_BTN3,    KC_BTN2,  _______,  _______, _______,   \
-    _______,    _______,    _______,    _______,    _______,    _______,    KC_BTN4,    _______,    KC_BTN5,  _______,  _______, _______,  \
-                            _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______
+    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    MO(_MISCFUNCS),    _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,           KC_BTN3,    KC_BTN2,  _______,  _______, _______,   \
+    _______,    _______,    _______,    _______,    _______,    _______,    KC_BTN4,           _______,    KC_BTN5,  _______,  _______, _______,  \
+                            _______,    _______,    _______,    _______,    _______,           _______,    _______,  _______
 ),  
 
 [_MISCFUNCS] = LAYOUT_fflx(
