@@ -8,7 +8,7 @@ enum layer_names {
     _LOWER,
     _RAISE,
     _SYMBOL,
-    _MOUSE,
+    _SYMBOL2,
     _MISCFUNCS,
     _ADJUST
 };
@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,     KC_QUOT,    KC_COMM,  KC_DOT,     CTRL_P,   KC_Y,     KC_F,       CTRL_G,   KC_C,       KC_R,     KC_L,     KC_SLSH,  
     XXXXXXX,    KC_A,       KC_O,     KC_E,       KC_U,     KC_I,     KC_D,       KC_H,     KC_T,       KC_N,     KC_S,     KC_ENT, 
     KC_CAPS,    GUI_SC,     KC_Q,     KC_J,       KC_K,     KC_X,     KC_B,       KC_M,     KC_W,       KC_V,     GUI_Z,    KC_RGUI,  \
-                            KC_MUTE,  TT(_LOWER), KC_SPC,   KC_LALT,  TT(_MOUSE), KC_BSPC,  TT(_RAISE), XXXXXXX
+                            KC_MUTE,  TT(_LOWER), KC_SPC,   KC_LALT,  TT(_SYMBOL2), KC_BSPC,  TT(_RAISE), XXXXXXX
     ),
 
 /* Lower
@@ -107,10 +107,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             _______,    _______,    _______,    _______,    _______,    _______,    _______,  _______
 ),
 
-[_MOUSE] = LAYOUT_fflx(
-    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    MO(_MISCFUNCS),    _______,    _______,  _______,  _______, _______,  \
-    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    KC_BTN1,           KC_BTN3,    KC_BTN2,  _______,  _______, _______,   \
-    _______,    _______,    _______,    _______,    _______,    _______,    KC_BTN4,           _______,    KC_BTN5,  _______,  _______, _______,  \
+[_SYMBOL2] = LAYOUT_fflx(
+    _______,    _______,    KC_RBRC,    KC_RCBR,    KC_RPRN,    _______,    _______,           _______,    _______,  _______,  _______, _______,  \
+    _______,    _______,    KC_LBRC,    KC_LCBR,    KC_LPRN,    _______,    _______,           RSFT(KC_ENT),    _______,  _______,  _______, _______,   \
+    _______,    _______,    _______,    _______,    _______,    _______,    _______,           _______,    _______,  _______,  _______, _______,  \
                             _______,    _______,    _______,    _______,    _______,           _______,    _______,  _______
 ),  
 
@@ -122,13 +122,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),  
 
 [_ADJUST] = LAYOUT_fflx(
-    RGB_TOG,    _______,    KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    _______,  _______,    _______,    RESET,    \
+    RGB_TOG,    _______,    KC_MPRV,    KC_MNXT,    KC_MPLY,    _______,    DF(_MAIN),    _______,    QK_RBT,  _______,    _______,    QK_BOOT,    \
     _______,    _______,    KC_VOLD,    KC_VOLU,    KC_MUTE,    _______,    DF(_QWERTY),   _______,    _______,  _______,    _______,    _______,    \
     _______,    CMB_TOG,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    \
                             _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______
 ),
 
-// [_MOUSE] =  LAYOUT_fflx(
+// [_SYMBOL2] =  LAYOUT_fflx(
 //   _______, _______, KC_WH_U, _______, KC_WH_D, _______,          _______, _______, _______, _______, _______, _______,
 //   _______, KC_WH_L, KC_BTN3, KC_BTN2, KC_BTN1, KC_WH_R,          _______, _______, _______, _______, _______, _______,
 //   _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______,
@@ -265,10 +265,10 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
       #else
       if (clockwise) {
       #endif
-        tap_code16(KC_DOWN);
+        tap_code16(KC_WH_D);
       }
       else{
-        tap_code16(KC_UP);
+        tap_code16(KC_WH_U);
       }
     }
     else if (index == 2) {

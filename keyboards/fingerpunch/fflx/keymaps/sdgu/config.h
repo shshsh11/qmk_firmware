@@ -2,6 +2,7 @@
 #define RGBLED_NUM 19
 #define DRIVER_LED_TOTAL RGBLED_NUM
 
+#define MK_3_SPEED
 
 #define FP_POINTING_DEFAULT_DPI 1000
 
