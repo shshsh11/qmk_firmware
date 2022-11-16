@@ -203,6 +203,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 layer_state_t layer_state_set_user(layer_state_t state) {
   switch (get_highest_layer(state)) {
     case _MAIN:
+        fp_snipe_keycode_set(false);
         break;  
     }
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
