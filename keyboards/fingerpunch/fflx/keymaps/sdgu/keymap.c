@@ -1,4 +1,9 @@
-// todo
+// @@@@ todo / ideas
+// - increase dpi for normal mode (1500+?), increase dpi for sniping (200+?)
+// - spacebar combo for shift
+// - tap hold instead of combo (eg make . and o both tap hold functionality with the hold layer having one shot shift in the other loctaion), permissive hold so that shift activates as soon as the other "combo" key is tapped, transparent everyone else. means more care needed for bigrams
+
+// @@@@ completed 
 
 
 
@@ -197,6 +202,45 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
       }
       break;    
   }
+}
+
+
+uint16_t get_combo_term(uint16_t index, combo_t *combo) {
+    // // decide by combo->keycode
+    // switch (combo->keycode) {
+    //     case KC_X:
+    //         return 50;
+    // }
+
+    // // or with combo index, i.e. its name from enum.
+    // switch (index) {
+    //     case COMBO_NAME_HERE:
+    //         return 9001;
+    // }
+
+    // And if you're feeling adventurous, you can even decide by the keys in the chord,
+    // i.e. the exact array of keys you defined for the combo.
+    // This can be useful if your combos have a common key and you want to apply the
+    // same combo term for all of them.
+    if (combo->keys[0] == KC_SPC || combo->keys[0] == KC_BSPC) { 
+        return 75;
+    }
+
+    return COMBO_TERM;
+}
+
+bool get_combo_must_press_in_order(uint16_t combo_index, combo_t *combo) {
+    switch (combo_index) {
+        /* List combos here that you want to only activate if their keys
+         * are pressed in the same order as they are defined in the combo's key
+         * array. */
+        case LHSHFT:
+            return true;
+        case RHSHFT:
+            return true;
+        default:
+            return false;
+    }
 }
 
 

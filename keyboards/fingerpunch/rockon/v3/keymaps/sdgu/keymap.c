@@ -24,8 +24,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_rockon(
     KC_ESC,    KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_BSPC,
     KC_TAB,    KC_Q,      KC_W,      KC_E,      KC_R,      KC_T,      KC_LBRC,                                          KC_RBRC,   KC_Y,      KC_U,      KC_I,      KC_O,      KC_P,      KC_BSLS,
-    QK_BOOT,   KC_A,      KC_S,      KC_D,      KC_F,      KC_G,      KC_LCBR,                                          KC_RCBR,   KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,   KC_QUOT,
-    RESET,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,      ADJUST,                                           ADJUST,    KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   KC_ENT,
+    KC_CAPS,   KC_A,      KC_S,      KC_D,      KC_F,      KC_G,      KC_LCBR,                                          KC_RCBR,   KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,   KC_QUOT,
+    QK_BOOT,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,      ADJUST,                                           ADJUST,    KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   KC_ENT,
                KC_MUTE,   KC_LCTL,   KC_LGUI,   LOWER,     KC_SPC,    KC_LALT,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3,    KC_RALT,   KC_SPC,    RAISE,     KC_RGUI,   KC_RCTL,   KC_MUTE,
                                                                                               KC_MUTE
 ),
@@ -105,3 +105,55 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 }
+
+
+
+#ifdef ENCODER_ENABLE
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    // default behavior if undefined
+    if (index == 0) {
+        // Conditional to reverse the direction of encoder number 1
+        // The reason I have this is that for some of my boards, it supports two different types of encoders, and they may differ in direction
+        #ifdef ENCODERS_A_REVERSE
+        if (!clockwise) {
+          #else
+          if (clockwise) {
+          #endif
+            tap_code16(KC_WH_D);
+          }
+          else{
+            tap_code16(KC_WH_U);
+          }
+    }
+    else if (index == 1) {
+      // Conditional to reverse the direction of encoder number 1
+      // The reason I have this is that for some of my boards, it supports two different types of encoders, and they may differ in direction
+      #ifdef ENCODERS_B_REVERSE
+      if (!clockwise) {
+      #else
+      if (clockwise) {
+      #endif
+        tap_code16(KC_WH_D);
+      }
+      else{
+        tap_code16(KC_WH_U);
+      }
+    }
+    else if (index == 2) {
+      #ifdef ENCODERS_C_REVERSE
+      if (!clockwise) {
+      #else
+      if (clockwise) {
+      #endif
+        tap_code16(KC_WH_D);
+      }
+      else{
+        tap_code16(KC_WH_U);
+      }
+    }
+
+    return true;
+}
+#endif
+
