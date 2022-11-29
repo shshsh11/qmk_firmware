@@ -28,3 +28,10 @@ OLED_ENABLE = no            # this can be yes or no depending on if you have an 
 MOUSEKEY_ENABLE = yes
 
 FP_TRACKBALL_ENABLE = yes
+ifeq ($(strip $(FP_TRACKBALL_ENABLE)), yes)
+   MOUSEKEY_ENABLE := yes  # not required, but enabling for mouse button keys
+   POINTING_DEVICE_ENABLE := yes
+   POINTING_DEVICE_DRIVER := pmw3360
+   QUANTUM_LIB_SRC += spi_master.c
+   OPT_DEFS += -DFP_TRACKBALL_ENABLE
+endif
