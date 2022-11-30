@@ -2,71 +2,88 @@
 
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
+    _MAIN,
     _QWERTY,
-    _COLEMAK,
     _LOWER,
     _RAISE,
     _ADJUST
 };
 
-enum custom_keycodes {
-    QWERTY = SAFE_RANGE,
-    LOWER,
-    RAISE,
-    ADJUST
-};
 
-// All the KC_MUTE keycodes below represent the encoders. If you aren't using encoders, you can ignore these:
-//            -->  KC_MUTE,   KC_LCTL,   KC_LGUI,   LOWER,     KC_SPC,    KC_LALT,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3,    KC_RALT,   KC_SPC,    RAISE,     KC_RGUI,   KC_RCTL,   KC_MUTE, <--
-//                                                                                            --> KC_MUTE <--
+enum combo_events {
+  LHSHFT,
+  RHSHFT,
+  COMBOLENGTH,
+};
+uint16_t COMBO_LEN = COMBOLENGTH;
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+
+[_MAIN] = LAYOUT_rockon(
+    KC_GRV,    KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_EQL,
+    KC_TAB,    KC_QUOT,      KC_COMM,   KC_DOT,    KC_P,      KC_Y,      KC_LBRC,                                          KC_RBRC,   KC_F,      KC_G,      KC_C,      KC_R,      KC_L,      KC_SLSH,
+    KC_LCTL,   KC_A,         KC_O,      KC_E,      KC_U,      KC_I,      KC_LCBR,                                          KC_RCBR,   KC_D,      KC_H,      KC_T,      KC_N,      KC_S,      KC_ENT,
+    KC_LSFT,   KC_SCLN,      KC_Q,      KC_J,      KC_K,      KC_X,      QK_BOOT,                                          ADJUST,    KC_B,      KC_M,      KC_W,      KC_V,      KC_Z,      KC_RSFT,
+               KC_MUTE,      _______,   KC_LALT,   LOWER,     KC_SPC,    KC_LGUI,   KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1,    KC_RGUI,   KC_BSPC,   RAISE,     KC_RALT,   _______,   KC_MUTE,
+                                                                                                KC_MS_BTN3
+),
+
 
 [_QWERTY] = LAYOUT_rockon(
     KC_ESC,    KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_BSPC,
     KC_TAB,    KC_Q,      KC_W,      KC_E,      KC_R,      KC_T,      KC_LBRC,                                          KC_RBRC,   KC_Y,      KC_U,      KC_I,      KC_O,      KC_P,      KC_BSLS,
     KC_CAPS,   KC_A,      KC_S,      KC_D,      KC_F,      KC_G,      KC_LCBR,                                          KC_RCBR,   KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,   KC_QUOT,
-    QK_BOOT,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,      ADJUST,                                           ADJUST,    KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   KC_ENT,
+    KC_LSFT,   KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,      ADJUST,                                           ADJUST,    KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   KC_ENT,
                KC_MUTE,   KC_LCTL,   KC_LGUI,   LOWER,     KC_SPC,    KC_LALT,   KC_MS_BTN1, KC_MS_BTN3, KC_MS_BTN2,    KC_RALT,   KC_SPC,    RAISE,     KC_RGUI,   KC_RCTL,   KC_MUTE,
                                                                                               KC_MS_BTN3
 ),
 
 
-[_COLEMAK] = LAYOUT_rockon(
-    KC_ESC,    KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_BSPC,
-    KC_TAB,    KC_Q,      KC_W,      KC_F,      KC_P,      KC_B,      KC_LBRC,                                          KC_RBRC,   KC_J,      KC_L,      KC_U,      KC_Y,      KC_SCLN,   KC_BSLS,
-    KC_CAPS,   KC_A,      KC_R,      KC_S,      KC_T,      KC_G,      KC_LCBR,                                          KC_RCBR,   KC_M,      KC_N,      KC_E,      KC_I,      KC_O,      KC_QUOT,
-    KC_LSFT,   KC_Z,      KC_X,      KC_C,      KC_D,      KC_V,      ADJUST,                                           ADJUST,    KC_K,      KC_H,      KC_COMM,   KC_DOT,    KC_SLSH,   KC_ENT,
-               KC_MUTE,   KC_LCTL,   KC_LGUI,   LOWER,     KC_SPC,    KC_LALT,   KC_MS_BTN1, KC_MS_BTN2, KC_MS_BTN3,    KC_RALT,   KC_SPC,    RAISE,     KC_RGUI,   KC_RCTL,   KC_MUTE,
-                                                                                              KC_MS_BTN3
-),
-
-
 [_LOWER] = LAYOUT_rockon(
-    KC_GRV,        _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       KC_MINS,       KC_EQL,        _______,
-    _______,       _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-    _______,       _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-    _______,       _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-                   _______,       _______,       _______,       _______,       _______,       _______,    _______,   _______,    _______,   _______,       _______,       _______,       _______,       _______,       _______,
-                                                                                                                     _______
+    KC_ESC,         LCTL(KC_C),    LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S), LCTL(KC_Z), LCTL(KC_Y),                         _______,  _______,    _______,  _______,  _______,  _______, _______,
+    KC_ESC,         LALT(KC_QUOT), LALT(KC_COMM),  LALT(KC_DOT), LALT(KC_P), LALT(KC_Y), _______,                            _______,  _______,    _______,  _______,  _______,  _______, KC_BSLS,
+    LCTL(KC_SLSH),  LCTL(KC_A),    KC_LBRC,        KC_LCBR,      KC_LPRN,    KC_MINS,    _______,                            _______,  _______,    KC_RPRN,  KC_RCBR,  KC_RBRC,  _______, XXXXXXX, 
+    _______,        _______,       _______,        _______,      _______,    _______,    _______,                            _______,  _______,    _______,  _______,  _______, _______, _______,
+    _______,        _______,       _______,        _______,      _______,    _______,    _______, _______, _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
+                                                                                                           _______
 ),
 
 [_RAISE] = LAYOUT_rockon(
-    KC_GRV,        _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       KC_MINS,       KC_EQL,        _______,
-    _______,       KC_PGUP,       KC_UP,         KC_PGDN,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-    KC_HOME,       KC_LEFT,       KC_DOWN,       KC_RGHT,       KC_END,        _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-    _______,       _______,       _______,       _______,       _______,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-                   _______,       _______,       _______,       _______,       _______,       _______,    _______,   _______,    _______,   _______,       _______,       _______,       _______,       _______,       _______,
-                                                                                                                     _______
+    _______,  KC_F1,      KC_F2,      KC_F3,      KC_F4,   KC_F5,   KC_F11,                             KC_F12,  KC_F6,    KC_F7,   KC_F8,    KC_F9,   KC_F10,   _______,
+    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  _______, _______,  _______, KC_PSCR,  KC_INS, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  KC_HOME, KC_PGDN,  KC_PGUP, KC_END,   _______, 
+    _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, _______ 
+                                                                                      _______
 ),
 
+
+    _______,  PLOVER,     TO(_MAIN), _______,  _______,   _______,  RGB_TOG,  _______, _______, _______,    _______, _______, ST_GEM,   ST_BOLT,   QK_BOOT, 
+    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,    OS_OFF,  OS_ON,  DEBUG, 
+    _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,  _______, _______,   _______, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,  _______, _______, _______,  _______, _______,  _______,  _______,  _______, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,  KC_NUM,  _______, _______,   _______, _______,  STN_PWR,  STN_RE1,  STN_RE2 
+  
+
+
 [_ADJUST] =  LAYOUT_rockon(
-    RESET,         KC_F1,         KC_F2,         KC_F3,         KC_F4,         KC_F5,         _______,                                      _______,       KC_F6,         KC_F7,         KC_F8,         KC_F9,         KC_F10,        _______,
-    _______,       RGB_TOG,       RGB_RMOD,      RGB_MOD,       _______,       TG(_QWERTY),   _______,                                      _______,       _______,       _______,       _______,       KC_F11,        KC_F12,        _______,
-    _______,       RGB_SPI,       RGB_HUI,       RGB_SAI,       RGB_VAI,       TG(_COLEMAK),  _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-    _______,       RGB_SPD,       RGB_HUD,       RGB_SAD,       RGB_VAD,       _______,       _______,                                      _______,       _______,       _______,       _______,       _______,       _______,       _______,
-                   _______,       _______,       _______,       _______,       _______,       _______,    _______,   _______,    _______,   _______,       _______,       _______,       _______,       _______,       _______,
-                                                                                                                     _______
+    _______,  PLOVER,     TO(_MAIN), _______,  _______,   _______,  RGB_TOG,                            _______, _______,    _______, _______,  _______,  _______,  QK_BOOT, 
+    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,                            _______, DF(_MAIN),  _______, _______,  OS_OFF,  OS_ON,     DEBUG,
+    _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,                            _______, DF(_MAIN),  _______, _______,  _______, _______,   _______, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,    _______, _______,  _______,  _______,  _______, 
+    _______,  _______,    _______,    _______,    _______, _______, KC_NUM,  _______, _______, _______, _______, _______,   _______, _______,   _______,  _______,  _______ 
+                                                                                      _______
 )
+};
+
+
+const uint16_t PROGMEM lhshft[] = {KC_O, KC_DOT, COMBO_END};
+const uint16_t PROGMEM rhshft[] = {KC_N, KC_C, COMBO_END};
+
+combo_t key_combos[] = {
+    [LHSHFT] = COMBO(lhshft, OSM(MOD_LSFT)),
+    [RHSHFT] = COMBO(rhshft, OSM(MOD_RSFT)),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -118,10 +135,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         #else
         if (clockwise) {
         #endif
-        tap_code16(KC_WH_D);
-        }
-        else{
-        tap_code16(KC_WH_U);
+            tap_code(KC_VOLU);
+        } else {
+            tap_code(KC_VOLD);
         }
     }
     else if (index == 1) {
@@ -130,22 +146,22 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
         #else
         if (clockwise) {
         #endif
-        tap_code16(KC_WH_D);
+            tap_code16(KC_WH_D);
         }
         else{
-        tap_code16(KC_WH_U);
+            tap_code16(KC_WH_U);
         }
     }
-    else if (index == 2) {
+    else if (index == 2) { // middle encoder
         #ifdef ENCODERS_C_REVERSE
         if (!clockwise) {
         #else
         if (clockwise) {
         #endif
-        tap_code16(KC_WH_D);
+            tap_code16(KC_WH_D);
         }
         else{
-        tap_code16(KC_WH_U);
+            tap_code16(KC_WH_U);
         }
     }
 
