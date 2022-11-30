@@ -10,6 +10,13 @@ enum layer_names {
 };
 
 
+enum custom_keycodes {
+  LOWER = SAFE_RANGE,
+  RAISE,
+  ADJUST,
+  SNIPEHOLD,
+};
+
 enum combo_events {
   LHSHFT,
   RHSHFT,
@@ -17,15 +24,32 @@ enum combo_events {
 };
 uint16_t COMBO_LEN = COMBOLENGTH;
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
+#define _CTRLZ LCTL(KC_Z)
+#define _CTRLC LCTL(KC_C)
+#define _CTRLV LCTL(KC_V)
+#define _CTRLX LCTL(KC_X)
+
+#define GUI_SC LGUI_T(KC_SCLN)
+#define ALT_Q  LALT_T(KC_Q)
+#define SHFT_J LSFT_T(KC_J)
+#define CTRL_P LCTL_T(KC_P)
+
+#define GUI_Z  RGUI_T(KC_Z)
+#define ALT_V  RALT_T(KC_V)
+#define SHFT_W RSFT_T(KC_W)
+#define CTRL_G RCTL_T(KC_G)
+
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+ 
 
 [_MAIN] = LAYOUT_rockon(
-    KC_GRV,    KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_EQL,
-    KC_TAB,    KC_QUOT,      KC_COMM,   KC_DOT,    KC_P,      KC_Y,      KC_LBRC,                                          KC_RBRC,   KC_F,      KC_G,      KC_C,      KC_R,      KC_L,      KC_SLSH,
-    KC_LCTL,   KC_A,         KC_O,      KC_E,      KC_U,      KC_I,      KC_LCBR,                                          KC_RCBR,   KC_D,      KC_H,      KC_T,      KC_N,      KC_S,      KC_ENT,
-    KC_LSFT,   KC_SCLN,      KC_Q,      KC_J,      KC_K,      KC_X,      QK_BOOT,                                          ADJUST,    KC_B,      KC_M,      KC_W,      KC_V,      KC_Z,      KC_RSFT,
-               KC_MUTE,      _______,   KC_LALT,   LOWER,     KC_SPC,    KC_LGUI,   KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1,    KC_RGUI,   KC_BSPC,   RAISE,     KC_RALT,   _______,   KC_MUTE,
+    KC_GRV,    KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          _CTRLX,      KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_EQL,
+    KC_TAB,    KC_QUOT,      KC_COMM,   KC_DOT,    CTRL_P,    KC_Y,      KC_LBRC,                                          _CTRLV,      KC_F,      CTRL_G,    KC_C,      KC_R,      KC_L,      KC_SLSH,
+    KC_LCTL,   KC_A,         KC_O,      KC_E,      KC_U,      KC_I,      KC_LCBR,                                          _CTRLC,      KC_D,      KC_H,      KC_T,      KC_N,      KC_S,      KC_ENT,
+    KC_LSFT,   GUI_SC,       KC_Q,      KC_J,      KC_K,      KC_X,      QK_BOOT,                                          _CTRLZ,      KC_B,      KC_M,      KC_W,      KC_V,      GUI_Z,     KC_RSFT,
+               KC_MUTE,      _______,   KC_LALT,   LOWER,     KC_SPC,    KC_LGUI,   KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1,    SNIPEHOLD,        KC_BSPC,   RAISE,     KC_RALT,   _______,   KC_MUTE,
                                                                                                 KC_MS_BTN3
 ),
 
@@ -44,8 +68,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,         LCTL(KC_C),    LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S), LCTL(KC_Z), LCTL(KC_Y),                         _______,  _______,    _______,  _______,  _______,  _______, _______,
     KC_ESC,         LALT(KC_QUOT), LALT(KC_COMM),  LALT(KC_DOT), LALT(KC_P), LALT(KC_Y), _______,                            _______,  _______,    _______,  _______,  _______,  _______, KC_BSLS,
     LCTL(KC_SLSH),  LCTL(KC_A),    KC_LBRC,        KC_LCBR,      KC_LPRN,    KC_MINS,    _______,                            _______,  _______,    KC_RPRN,  KC_RCBR,  KC_RBRC,  _______, XXXXXXX, 
-    _______,        _______,       _______,        _______,      _______,    _______,    _______,                            _______,  _______,    _______,  _______,  _______, _______, _______,
-    _______,        _______,       _______,        _______,      _______,    _______,    _______, _______, _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
+    _______,        _______,       _______,        _______,      _______,    KC_UNDS,    _______,                            _______,  _______,    _______,  _______,  _______, _______, _______,
+                    _______,       _______,        _______,      _______,    _______,    _______, _______, _______, _______, _______,  _______,    _______,  _______,  _______, _______, 
                                                                                                            _______
 ),
 
@@ -54,25 +78,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  _______, _______,  _______, KC_PSCR,  KC_INS, 
     _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
     _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,  KC_HOME, KC_PGDN,  KC_PGUP, KC_END,   _______, 
-    _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, _______ 
+              _______,    _______,    _______,    _______, _______, _______, _______, _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, 
                                                                                       _______
 ),
 
 
-    _______,  PLOVER,     TO(_MAIN), _______,  _______,   _______,  RGB_TOG,  _______, _______, _______,    _______, _______, ST_GEM,   ST_BOLT,   QK_BOOT, 
-    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,    OS_OFF,  OS_ON,  DEBUG, 
-    _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,  _______, _______,   _______, 
-    _______,  _______,    _______,    _______,    _______, _______, _______,  _______, _______, _______,  _______, _______,  _______,  _______,  _______, 
-    _______,  _______,    _______,    _______,    _______, _______, _______,  KC_NUM,  _______, _______,   _______, _______,  STN_PWR,  STN_RE1,  STN_RE2 
-  
-
 
 [_ADJUST] =  LAYOUT_rockon(
-    _______,  PLOVER,     TO(_MAIN), _______,  _______,   _______,  RGB_TOG,                            _______, _______,    _______, _______,  _______,  _______,  QK_BOOT, 
-    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,                            _______, DF(_MAIN),  _______, _______,  OS_OFF,  OS_ON,     DEBUG,
-    _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,                            _______, DF(_MAIN),  _______, _______,  _______, _______,   _______, 
-    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,    _______, _______,  _______,  _______,  _______, 
-    _______,  _______,    _______,    _______,    _______, _______, KC_NUM,  _______, _______, _______, _______, _______,   _______, _______,   _______,  _______,  _______ 
+    _______,  _______,    TO(_MAIN), _______,  _______,   _______,  RGB_TOG,                            _______, _______,      _______, _______,  _______,  _______,  QK_BOOT, 
+    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,                            _______, DF(_MAIN),    _______, _______,  OS_OFF,  OS_ON,     DEBUG,
+    _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,                            _______, DF(_QWERTY),  _______, _______,  _______, _______,   _______, 
+    _______,  _______,    _______,    _______,    _______, _______, _______,                            _______, _______,      _______, _______,  _______,  _______,  _______, 
+              _______,    _______,    _______,    _______, _______, KC_NUM,  _______, _______, _______, _______, _______,      _______, _______,   _______,  _______,   
                                                                                       _______
 )
 };
@@ -113,6 +130,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_on(_ADJUST);
             } else {
                 layer_off(_ADJUST);
+            }
+            return false;
+            break;
+        case SNIPEHOLD:
+            if (record->event.pressed) {
+                fp_snipe_keycode_set(true);
+            } else {
+                fp_snipe_keycode_set(false);
             }
             return false;
             break;
