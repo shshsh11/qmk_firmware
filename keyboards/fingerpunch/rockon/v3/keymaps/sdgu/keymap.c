@@ -154,8 +154,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
     // default behavior if undefined
-    if (index == 0) {
-        #ifdef ENCODERS_A_REVERSE
+    if (index == 1) {
+        #ifdef ENCODERS_B_REVERSE
         if (!clockwise) {
         #else
         if (clockwise) {
@@ -165,8 +165,8 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             tap_code(KC_VOLD);
         }
     }
-    else if (index == 1) {
-        #ifdef ENCODERS_B_REVERSE
+    else if (index == 0) {
+        #ifdef ENCODERS_A_REVERSE
         if (!clockwise) {
         #else
         if (clockwise) {
