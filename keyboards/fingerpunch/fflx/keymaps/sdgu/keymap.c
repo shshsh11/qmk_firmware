@@ -2,6 +2,7 @@
 // - increase dpi for normal mode (1500+?), increase dpi for sniping (200+?)
 // - spacebar combo for shift
 // - tap hold instead of combo (eg make . and o both tap hold functionality with the hold layer having one shot shift in the other loctaion), permissive hold so that shift activates as soon as the other "combo" key is tapped, transparent everyone else. means more care needed for bigrams
+// make raise the sniping layer maybe
 
 // @@@@ completed 
 
