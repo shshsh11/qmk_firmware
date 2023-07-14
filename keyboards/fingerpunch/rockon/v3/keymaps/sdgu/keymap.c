@@ -45,7 +45,7 @@ uint16_t COMBO_LEN = COMBOLENGTH;
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
-[_MAIN] = LAYOUT_rockon(
+[_MAIN] = LAYOUT(
     KC_GRV,    KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          _CTRLX,      KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_EQL,
     KC_TAB,    KC_QUOT,      KC_COMM,   KC_DOT,    CTRL_P,    KC_Y,      KC_BTN5,                                       _CTRLV,      KC_F,      CTRL_G,    KC_C,      KC_R,      KC_L,      KC_SLSH,
     KC_LCTL,   KC_A,         KC_O,      KC_E,      KC_U,      KC_I,      KC_BTN4,                                       _CTRLC,      KC_D,      KC_H,      KC_T,      KC_N,      KC_S,      KC_ENT,
@@ -55,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-[_QWERTY] = LAYOUT_rockon(
+[_QWERTY] = LAYOUT(
     KC_ESC,    KC_1,      KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          KC_RPRN,   KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_BSPC,
     KC_TAB,    KC_Q,      KC_W,      KC_E,      KC_R,      KC_T,      KC_LBRC,                                          KC_RBRC,   KC_Y,      KC_U,      KC_I,      KC_O,      KC_P,      KC_BSLS,
     KC_CAPS,   KC_A,      KC_S,      KC_D,      KC_F,      KC_G,      KC_LCBR,                                          KC_RCBR,   KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,   KC_QUOT,
@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-[_LOWER] = LAYOUT_rockon(
+[_LOWER] = LAYOUT(
     KC_ESC,         LCTL(KC_C),    LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S), LCTL(KC_Z), LCTL(KC_Y),                         _______,  _______,    _______,  _______,  _______,  _______, _______,
     KC_ESC,         LALT(KC_QUOT), LALT(KC_COMM),  LALT(KC_DOT), LALT(KC_P), LALT(KC_Y), KC_T,                               _______,  _______,    _______,  _______,  _______,  _______, KC_BSLS,
     LCTL(KC_SLSH),  LCTL(KC_A),    KC_LBRC,        KC_LCBR,      KC_LPRN,    KC_MINS,    KC_S,                               _______,  _______,    KC_RPRN,  KC_RCBR,  KC_RBRC,  _______, XXXXXXX, 
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                            _______
 ),
 
-[_RAISE] = LAYOUT_rockon(
+[_RAISE] = LAYOUT(
     _______,  KC_F1,      KC_F2,      KC_F3,      KC_F4,   KC_F5,   KC_F11,                             KC_F12,  KC_F6,         KC_F7,   KC_F8,    KC_F9,   KC_F10,   _______,
     _______,  KC_1,       KC_2,       KC_3,       KC_4,    KC_5,    _______,                            _______, _______,       _______, _______,  _______, KC_PSCR,  KC_INS, 
     _______,  KC_6,       KC_7,       KC_8,       KC_9,    KC_0,    _______,                            _______, MO(_SYMBOLS),  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                       _______
 ),
 
-[_SYMBOLS] = LAYOUT_rockon(
+[_SYMBOLS] = LAYOUT(
     _______,  _______,    _______,    _______,    _______,    _______,   _______,                             _______, _______,       _______,   _______,    _______,   _______,   _______,
     _______,  KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_PERC,    _______,                            _______, _______,       _______, _______,  _______, _______,  _______, 
     _______,  KC_CIRC,    KC_AMPR,    KC_ASTR,    _______,    KC_UNDS,    _______,                            _______, _______,  _______, _______,  _______,   _______, _______, 
@@ -94,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 
-[_ADJUST] =  LAYOUT_rockon(
+[_ADJUST] =  LAYOUT(
     _______,  _______,    TO(_MAIN), _______,  _______,   _______,  RGB_TOG,                            _______, _______,      _______, _______,  _______,  _______,  QK_BOOT, 
     _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,                            _______, DF(_MAIN),    _______, _______,  OS_OFF,  OS_ON,     DEBUG,
     _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,                            _______, DF(_QWERTY),  _______, _______,  _______, _______,   _______, 
