@@ -1,13 +1,6 @@
 #pragma once
 
-#include "config_common.h"
-
-#define DEVICE_VER  0x0001
-#define VENDOR_ID   0x4A48 // JH
-#define PRODUCT_ID  0x4257 // BW
-
-#define MANUFACTURER    jasonhazel
-#define PRODUCT         Bad Wings
+#include "keyboards/fingerpunch/src/config.h"
 
 #define MATRIX_COLS 8
 #define MATRIX_ROWS  5

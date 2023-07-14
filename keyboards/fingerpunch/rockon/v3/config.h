@@ -17,9 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define DEVICE_VER      0x0003
-
-
 /* key matrix size */
 /* Rows are doubled up */
 #define MATRIX_ROWS 9
@@ -40,10 +37,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
-  #ifdef DRIVER_LED_TOTAL
-    #undef DRIVER_LED_TOTAL
+  #ifdef RGB_MATRIX_LED_COUNT
+    #undef RGB_MATRIX_LED_COUNT
   #endif
-  #define DRIVER_LED_TOTAL 69
+  #define RGB_MATRIX_LED_COUNT 69
 #endif
 
 // SPI config for shift register (and trackball if enabled)
@@ -58,8 +55,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* COL2ROW, ROW2COL*/
 #define DIODE_DIRECTION COL2ROW
 
-#define ENCODERS_PAD_A {C7, D5, F1}
-#define ENCODERS_PAD_B {D2, B7, F0}
+
+// If we have audio enabled, that means we're not using the center encoder, as they share a pin on the controller
+// Note that you need to solder the jumper on the pcb and remove teh audio buzzer from the pcb if using the center encoder
+#ifdef AUDIO_ENABLE
+    #define ENCODERS_PAD_A {C7, D5}
+    #define ENCODERS_PAD_B {D2, B7}
+#else
+    #define ENCODERS_PAD_A {C7, D5, F1}
+    #define ENCODERS_PAD_B {D2, B7, F0}
+#endif
+
+#ifdef AUDIO_ENABLE
+    #define AUDIO_VOICES
+    #define AUDIO_PIN F1
+    #define AUDIO_PWM_DRIVER PWMD2
+    #define AUDIO_PWM_CHANNEL 1
+    #define AUDIO_STATE_TIMER GPTD4
+    #define AUDIO_VOICES
+    // #define AUDIO_PWM_PAL_MODE 42 // only if using AUDIO_DRIVER = pwm_hardware
+    // #define NO_MUSIC_MODE
+    #define AUDIO_ENABLE_TONE_MULTIPLEXING
+    #define AUDIO_TONE_MULTIPLEXING_RATE_DEFAULT 10
+    #define FP_AUDIO_MOUSE_BUTTONS
+    #define FP_AUDIO_CUT_COPY_PASTE
+    #define FP_AUDIO_SAVE
+    #define STARTUP_SONG SONG(STARTUP_SOUND)
+    #define DEFAULT_LAYER_SONGS \
+        { SONG(QWERTY_SOUND), SONG(COLEMAK_SOUND) }
+#endif
+
+#ifdef HAPTIC_ENABLE
+    #define FB_ERM_LRA 1
+    #define FB_BRAKEFACTOR 3 // For 1x:0, 2x:1, 3x:2, 4x:3, 6x:4, 8x:5, 16x:6, Disable Braking:7
+    #define FB_LOOPGAIN 1 // For  Low:0, Medium:1, High:2, Very High:3
+    #define RATED_VOLTAGE 2
+    #define V_PEAK 2.8
+    #define V_RMS 2.0
+    #define F_LRA 150 // resonance freq
+    #define DRV_GREETING  alert_750ms
+    #define FP_HAPTIC_MOUSE_BUTTONS
+    #define FP_HAPTIC_CUT_COPY_PASTE
+    #define FP_HAPTIC_SAVE
+#endif
 
 #ifdef CIRQUE_ENABLE
   // cirque trackpad config
@@ -73,9 +111,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef FP_TRACKBALL_ENABLE
   // Trackball config
-  #define FP_POINTING_DEFAULT_DPI 800
   #define PMW33XX_CS_PIN B5
-  #define PMW33XX_CPI FP_POINTING_DEFAULT_DPI
   #define PMW33XX_CS_DIVISOR 8 // needs to be the same as the SHIFTREG_DIVISOR above
   #define POINTING_DEVICE_INVERT_Y
 #endif

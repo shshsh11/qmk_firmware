@@ -16,33 +16,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-#include "config_common.h"
 
-
-/* USB Device descriptor parameter */
-#define DEVICE_VER      0x0001
-#define VENDOR_ID       0xFEFE
-#define PRODUCT_ID      0x6011
-//#define DEVICE_VER      0x0001 // Now defined in the revX/config.h
-#define MANUFACTURER    sadekbaroudi
-#define PRODUCT         sadekbaroudi pinkiesout
-
-/* key matrix size */
-/* Rows are doubled up */
-#define MATRIX_ROWS 8
-#define MATRIX_COLS 9
-
-// wiring
-#define MATRIX_ROW_PINS \
-    { B6, F4, B5, B4, B2, B3, B7, D5 }
-#define MATRIX_COL_PINS \
-    { D2, D4, C6, D7, E6, F5, F6, F7, B1 }
+#include "keyboards/fingerpunch/src/config.h"
 
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
 #define DEBOUNCE 5
-
-/* COL2ROW, ROW2COL*/
-#define DIODE_DIRECTION COL2ROW
 
 #define RGB_DI_PIN D3
 #ifdef RGBLIGHT_ENABLE
@@ -64,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
-  #define DRIVER_LED_TOTAL 66
+  #define RGB_MATRIX_LED_COUNT 66
   #define RGB_MATRIX_CENTER {100, 32}
   #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150  /* The maximum brightness level for RGB_MATRIX */
   #define RGB_MATRIX_STARTUP_VAL RGB_MATRIX_MAXIMUM_BRIGHTNESS // Sets the default brightness value, if none has been set
@@ -112,7 +90,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
 
-
-#ifdef OLED_ENABLE
-#define OLED_DISPLAY_128X64
-#endif

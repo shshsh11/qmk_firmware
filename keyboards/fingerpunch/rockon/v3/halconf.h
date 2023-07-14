@@ -1,4 +1,3 @@
-// BEGIN SADEK PWM LED testing
 /* Copyright 2020 QMK
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +21,11 @@
 
 #pragma once
 
+#define HAL_USE_PWM    TRUE
+#define HAL_USE_GPT    TRUE
 #define HAL_USE_SERIAL TRUE
-#define HAL_USE_SPI TRUE
-#define SPI_USE_WAIT TRUE
+#define HAL_USE_SPI    TRUE
+#define SPI_USE_WAIT   TRUE
 #define SPI_SELECT_MODE SPI_SELECT_MODE_PAD
 
 #include_next <halconf.h>
