@@ -15,7 +15,6 @@ BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
 
 COMBO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
-LEADER_ENABLE = yes
 
 # Either do RGBLIGHT_ENABLE or RGB_MATRIX_ENABLE and RGB_MATRIX_DRIVER
 RGBLIGHT_ENABLE = no

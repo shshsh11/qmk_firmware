@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,    KC_1,         KC_2,      KC_3,      KC_4,      KC_5,      KC_LPRN,                                          _CTRLX,      KC_6,      KC_7,      KC_8,      KC_9,      KC_0,      KC_EQL,
     KC_TAB,    KC_QUOT,      KC_COMM,   KC_DOT,    CTRL_P,    KC_Y,      KC_BTN5,                                       _CTRLV,      KC_F,      CTRL_G,    KC_C,      KC_R,      KC_L,      KC_SLSH,
     KC_LCTL,   KC_A,         KC_O,      KC_E,      KC_U,      KC_I,      KC_BTN4,                                       _CTRLC,      KC_D,      KC_H,      KC_T,      KC_N,      KC_S,      KC_ENT,
-    KC_LSFT,   KC_SCLN,       KC_Q,      KC_J,      KC_K,      KC_X,     KC_LEAD,                                          _CTRLZ,      KC_B,      KC_M,      KC_W,      KC_V,      KC_Z,     KC_RSFT,
+    KC_LSFT,   KC_SCLN,       KC_Q,      KC_J,      KC_K,      KC_X,      QK_BOOT,                                          _CTRLZ,      KC_B,      KC_M,      KC_W,      KC_V,      KC_Z,     KC_RSFT,
                KC_MUTE,      _______,   KC_LALT,   LOWER,     KC_SPC,    KC_LGUI,   KC_MS_BTN2, KC_MS_BTN3, KC_MS_BTN1,    SNIPEHOLD,        KC_BSPC,   RAISE,     KC_RALT,   _______,   KC_MUTE,
                                                                                                 KC_MS_BTN3
 ),
@@ -203,20 +203,3 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return true;
 }
 #endif
-
-
-void leader_start_user(void) {
-    // Do something when the leader key is pressed
-}
-
-void leader_end_user(void) {
-    if (leader_sequence_one_key(KC_W)) {
-        tap_code16(LCTL(LSFT(KC_PGDN)));
-    } else if (leader_sequence_one_key(KC_V)) {
-        tap_code16(LCTL(LSFT(KC_PGUP)));
-    } else if (leader_sequence_one_key(KC_M)) {
-        tap_code16(LCTL(LSFT(KC_HOME)));
-    } else if (leader_sequence_one_key(KC_Z)) {
-        tap_code16(LCTL(LSFT(KC_END)));
-    }
-}
