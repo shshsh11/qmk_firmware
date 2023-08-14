@@ -21,7 +21,7 @@
 // 100 is too low of a tapping term, requires too much of a tap, can't really roll
 // 150 seems to not have very noticeable delay but is also pretty consistent when wanting to type space
 // 200 is somewhat stuttery but also I kind of need to pay attention and type consistently to notice it
-#define IGNORE_MOD_TAP_INTERRUPT
+// #define IGNORE_MOD_TAP_INTERRUPT
 // #define PERMISSIVE_HOLD
 // #define HOLD_ON_OTHER_KEY_PRESS
 // notes: combo for shift, mod tap everything else

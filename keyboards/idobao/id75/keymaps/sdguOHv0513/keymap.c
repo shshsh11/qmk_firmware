@@ -83,7 +83,7 @@ L4------------------------------------
    KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   KC_PSLS, KC_PAST,   KC_PMNS,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,      QK_BOOT,
    KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,      KC_KP_1, KC_KP_2,   KC_KP_3,    KC_F,     KC_G,  KC_C,    KC_R,    KC_L,      KC_SLSH,
    OSCTL,    KC_W,    KC_E,    OSL(_LOWER), KC_A,     KC_N,      KC_KP_4, KC_KP_5,   KC_KP_6,    KC_D,     KC_H,    KC_T,    KC_N,    KC_S,      KC_ENT,
-   OSL(_RAISE), KCSM, KC_I,    KC_V,        KC_F,     KC_K,  KC_KP_7, KC_KP_8,   KC_KP_9,    KC_B,     KC_M,    KC_W,    KC_V,    KC_Z,     KC_RSFT,
+   OSL(_RAISE), KC_S, KC_I,    KC_V,        KC_F,     KC_K,  KC_KP_7, KC_KP_8,   KC_KP_9,    KC_B,     KC_M,    KC_W,    KC_V,    KC_Z,     KC_RSFT,
    KC_LGUI,  KC_CAPS, KC_LALT, OSL(_RAISE2), KC_BSPC, KC_SPC,      KC_PDOT, KC_KP_0,   KC_PPLS,    KC_BSPC,  MO(3),   KC_RALT, KC_RGUI, QK_BOOT,   _______ 
   ),
 
@@ -105,7 +105,7 @@ L4------------------------------------
 
   [_RAISE2] = LAYOUT_ortho_5x15(
     _______,  CTRLC,     CTRLV,    CTRLX,    CTRLS,    CTRLZ,     RGB_TOG,  _______, _______, _______,    _______, _______, _______,   _______,   QK_BOOT, 
-    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     _______,  _______, _______, _______,  _______, _______,    OS_OFF,  OS_ON,  DEBUG, 
+    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     _______,  _______, _______, _______,  _______, _______,    OS_OFF,  OS_ON,  DB_TOGG, 
     _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,   _______,  _______, _______, _______,  _______, _______,  _______, _______,   _______, 
     OSSFT,    KC_HOME,   KC_PGUP,  KC_PGDN,  KC_END,   KC_PSCR,    _______,  _______, _______, _______,  _______, _______,  _______,  _______,  _______, 
     KC_F7,  KC_F8,     KC_F9,    _______,    KC_F10,    _______, _______,   KC_NUM,  _______, _______,   _______, _______,  _______,  _______,  _______ 
@@ -116,7 +116,7 @@ L4------------------------------------
 
 
 
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
@@ -124,6 +124,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             }
         }
     }
+    return false;
 }
 
 void keyboard_post_init_user(void) {
