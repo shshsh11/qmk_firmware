@@ -79,36 +79,36 @@ L4------------------------------------
 
 */
 
- [_MAIN] = LAYOUT_ortho_5x15(
-   KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   KC_PSLS, KC_PAST,   KC_PMNS,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,      QK_BOOT,
-   KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,      KC_KP_1, KC_KP_2,   KC_KP_3,    KC_F,     KC_G,  KC_C,    KC_R,    KC_L,      KC_SLSH,
-   OSCTL,    KC_W,    KC_E,    OSL(_LOWER), KC_A,     KC_N,      KC_KP_4, KC_KP_5,   KC_KP_6,    KC_D,     KC_H,    KC_T,    KC_N,    KC_S,      KC_ENT,
-   OSL(_RAISE), KC_S, KC_I,    KC_V,        KC_F,     KC_K,  KC_KP_7, KC_KP_8,   KC_KP_9,    KC_B,     KC_M,    KC_W,    KC_V,    KC_Z,     KC_RSFT,
-   KC_LGUI,  KC_CAPS, KC_LALT, OSL(_RAISE2), KC_BSPC, KC_SPC,      KC_PDOT, KC_KP_0,   KC_PPLS,    KC_BSPC,  MO(3),   KC_RALT, KC_RGUI, QK_BOOT,   _______ 
+ [_MAIN] = LAYOUT(
+   KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   
+   KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,    
+   OSCTL,    KC_S,    KC_E,    OSL(_LOWER), KC_A,     KC_W,   
+   OSL(_RAISE), KC_N, KC_I,    KC_V,        KC_F,     KC_K, 
+   KC_LGUI,  KC_CAPS, KC_LALT, OSL(_RAISE2), KC_BSPC, KC_SPC
   ),
 
- [_LOWER] = LAYOUT_ortho_5x15(
-    KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,    _______, _______, _______, _______,  _______,  _______,  _______, _______, _______,
-    KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_U,     KC_S,    _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______,
-    _______,  KC_G,   KC_O,    OSL(_LOWER), KC_R,     KC_C,       _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
-    KC_U,     KC_M,   KC_N,    KC_J,        KC_D,     KC_P,        _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
-    KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L,    _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______ 
+ [_LOWER] = LAYOUT(
+    KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
+    KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_U,     KC_S,   
+    _______,  KC_G,   KC_O,    OSL(_LOWER), KC_R,     KC_C,   
+    KC_U,     KC_M,   KC_N,    KC_J,        KC_D,     KC_P,      
+    KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
   ),  
 
-  [_RAISE] = LAYOUT_ortho_5x15(
-    KC_LPRN,  KC_RPRN,    KC_EQL,   KC_SLSH,  KC_ASTR,   KC_MINS, _______,  _______, _______,  _______, _______, _______, _______,   _______,   _______, 
-    KC_LBRC,  KC_RBRC,    KC_1,     KC_2,     KC_3,      KC_PLUS, _______, _______, _______, _______,  _______, _______,  _______, KC_PSCR,  KC_INS, 
-    KC_LCBR,  KC_RCBR,    KC_4,     KC_5,     KC_6,      KC_ENT,  _______, _______, _______, _______,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
-    _______,  KC_COMM,    KC_7,     KC_8,     KC_9,      KC_UNDS, _______, _______, _______, _______,  KC_HOME, KC_PGDN,  KC_PGUP, KC_END,   _______, 
-    _______,_______,      KC_COLN,  KC_0,     KC_DOT,    OSSFT,    _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, _______ 
+  [_RAISE] = LAYOUT(
+    KC_LPRN,  KC_RPRN,    KC_EQL,   KC_SLSH,  KC_ASTR,   KC_MINS, 
+    KC_LBRC,  KC_RBRC,    KC_1,     KC_2,     KC_3,      KC_PLUS, 
+    KC_LCBR,  KC_RCBR,    KC_4,     KC_5,     KC_6,      KC_ENT,  
+    _______,  KC_COMM,    KC_7,     KC_8,     KC_9,      KC_UNDS, 
+    _______,_______,      KC_COLN,  KC_0,     KC_DOT,    OSSFT
   ), 
 
-  [_RAISE2] = LAYOUT_ortho_5x15(
-    _______,  CTRLC,     CTRLV,    CTRLX,    CTRLS,    CTRLZ,     RGB_TOG,  _______, _______, _______,    _______, _______, _______,   _______,   QK_BOOT, 
-    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     _______,  _______, _______, _______,  _______, _______,    OS_OFF,  OS_ON,  DB_TOGG, 
-    _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,   _______,  _______, _______, _______,  _______, _______,  _______, _______,   _______, 
-    OSSFT,    KC_HOME,   KC_PGUP,  KC_PGDN,  KC_END,   KC_PSCR,    _______,  _______, _______, _______,  _______, _______,  _______,  _______,  _______, 
-    KC_F7,  KC_F8,     KC_F9,    _______,    KC_F10,    _______, _______,   KC_NUM,  _______, _______,   _______, _______,  _______,  _______,  _______ 
+  [_RAISE2] = LAYOUT(
+    QK_BOOT,  CTRLC,     CTRLV,    CTRLX,    CTRLS,    CTRLZ,
+    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     
+    _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,   
+    OSSFT,    KC_HOME,   KC_PGUP,  KC_PGDN,  KC_END,   KC_PSCR,    
+    KC_F7,  KC_F8,     KC_F9,    _______,    KC_F10,    _______
   ), 
 
 };
@@ -117,7 +117,7 @@ L4------------------------------------
 
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
+    if (host_keyboard_led_state().caps_lock) { //|| is_caps_word_on()) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
                 rgb_matrix_set_color(i, 25, 25, 255);

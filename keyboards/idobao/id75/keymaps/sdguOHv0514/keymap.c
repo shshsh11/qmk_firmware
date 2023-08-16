@@ -82,8 +82,8 @@ L4------------------------------------
  [_MAIN] = LAYOUT_ortho_5x15(
    KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   KC_PSLS, KC_PAST,   KC_PMNS,    KC_6,     KC_7,    KC_8,    KC_9,    KC_0,      QK_BOOT,
    KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,      KC_KP_1, KC_KP_2,   KC_KP_3,    KC_F,     KC_G,  KC_C,    KC_R,    KC_L,      KC_SLSH,
-   OSCTL,    KC_W,    KC_E,    OSL(_LOWER), KC_A,     KC_N,      KC_KP_4, KC_KP_5,   KC_KP_6,    KC_D,     KC_H,    KC_T,    KC_N,    KC_S,      KC_ENT,
-   OSL(_RAISE), KC_S, KC_I,    KC_V,        KC_F,     KC_K,  KC_KP_7, KC_KP_8,   KC_KP_9,    KC_B,     KC_M,    KC_W,    KC_V,    KC_Z,     KC_RSFT,
+   OSCTL,    KC_S,    KC_E,    OSL(_LOWER), KC_A,     KC_W,      KC_KP_4, KC_KP_5,   KC_KP_6,    KC_D,     KC_H,    KC_T,    KC_N,    KC_S,      KC_ENT,
+   OSL(_RAISE), KC_N, KC_I,    KC_V,        KC_F,     KC_K,  KC_KP_7, KC_KP_8,   KC_KP_9,    KC_B,     KC_M,    KC_W,    KC_V,    KC_Z,     KC_RSFT,
    KC_LGUI,  KC_CAPS, KC_LALT, OSL(_RAISE2), KC_BSPC, KC_SPC,      KC_PDOT, KC_KP_0,   KC_PPLS,    KC_BSPC,  MO(3),   KC_RALT, KC_RGUI, QK_BOOT,   _______ 
   ),
 
