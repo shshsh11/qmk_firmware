@@ -18,6 +18,3 @@
 #define FORCE_NKRO
 
 #define TAPPING_TERM 200
-
-#define ONESHOT_TAP_TOGGLE 5
-#define ONESHOT_TIMEOUT 1000

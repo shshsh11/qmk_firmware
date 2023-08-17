@@ -17,9 +17,9 @@
 
 enum layers {
     _MAIN,
-    _LOWER,
-    _RAISE,
-    _RAISE2,
+    _ALPHA2,
+    _NUM,
+    _UTILS,
 };
 
 
@@ -82,20 +82,20 @@ L4------------------------------------
  [_MAIN] = LAYOUT(
    KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   
    KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,    
-   OSCTL,    KC_S,    KC_E,    OSL(_LOWER), KC_A,     KC_W,   
-   OSL(_RAISE), KC_N, KC_I,    KC_V,        KC_F,     KC_K, 
-   KC_LGUI,  KC_CAPS, KC_LALT, OSL(_RAISE2), KC_BSPC, KC_SPC
+   OSCTL,    KC_S,    KC_E,    OSL(_ALPHA2), KC_A,     KC_W,   
+   OSL(_NUM), KC_N, KC_I,    KC_V,        KC_F,     KC_K, 
+   KC_LGUI,  KC_CAPS, KC_LALT, OSL(_UTILS), KC_BSPC, KC_SPC
   ),
 
- [_LOWER] = LAYOUT(
+ [_ALPHA2] = LAYOUT(
     KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
     KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
-    _______,  KC_U,   KC_O,    OSL(_LOWER), KC_R,     KC_C,   
+    _______,  KC_U,   KC_O,    OSL(_ALPHA2), KC_R,     KC_C,   
     KC_S,     KC_M,   KC_N,    KC_J,        KC_D,     KC_P,      
     KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
   ),  
 
-  [_RAISE] = LAYOUT(
+  [_NUM] = LAYOUT(
     KC_LPRN,  KC_RPRN,    KC_EQL,   KC_SLSH,  KC_ASTR,   KC_MINS, 
     KC_LBRC,  KC_RBRC,    KC_1,     KC_2,     KC_3,      KC_PLUS, 
     KC_LCBR,  KC_RCBR,    KC_4,     KC_5,     KC_6,      KC_ENT,  
@@ -103,7 +103,7 @@ L4------------------------------------
     _______,_______,      KC_COLN,  KC_0,     KC_DOT,    OSSFT
   ), 
 
-  [_RAISE2] = LAYOUT(
+  [_UTILS] = LAYOUT(
     QK_BOOT,  CTRLC,     CTRLV,    CTRLX,    CTRLS,    CTRLZ,
     KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     
     _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,   
@@ -118,30 +118,55 @@ L4------------------------------------
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock) { //|| is_caps_word_on()) {
-        for (uint8_t i = led_min; i <= led_max; i++) {
-            if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
-                rgb_matrix_set_color(i, 250, 20, 70);
-            }
-        }
+        // for (uint8_t i = led_min; i <= led_max; i++) {
+        //     if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
+        //         rgb_matrix_set_color(i, 250, 20, 70);
+        //     }
+        // }
+        // rgb_matrix_set_color_all(255, 70, 70);
+        RGB_MATRIX_INDICATOR_SET_COLOR(31, 255, 70, 70);
     }
+
+    switch(get_highest_layer(layer_state|default_layer_state)) {
+        case _ALPHA2:
+            RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+            break;
+        case _NUM:
+            RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+            break;
+        case _UTILS:
+            RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+            break;
+        default:
+            rgb_matrix_sethsv_noeeprom(HSV_OFF);
+            break;
+    }
+
     return false;
 }
 
 
-void oneshot_layer_changed_user(uint8_t layer) {
-  if (layer == 1) {
-    rgb_matrix_set_color_all(255, 128, 0);
-  }
-  if (layer == 2) {
-    rgb_matrix_set_color_all(128, 255, 0);
-  }
-  if (layer == 3) {
-    rgb_matrix_set_color_all(0, 128, 255);
-  }
-  if (!layer) {
-    println("Oneshot layer off");
-  }
-}
+// void oneshot_layer_changed_user(uint8_t layer) {
+//   if (layer == _ALPHA2) {
+//     // println("secondary alphas");
+//     // rgb_matrix_set_color_all(255, 153, 51);
+//     rgb_matrix_sethsv_noeeprom(21, 204, 255);
+//   } 
+//   if (layer == _NUM) {
+//     // println("numbers");
+//     // rgb_matrix_set_color_all(153, 255, 51);
+//     rgb_matrix_sethsv_noeeprom(64, 204, 255);
+//   } 
+//   if (layer == _UTILS) {
+//     // println("navigation etc.");
+//     // rgb_matrix_set_color_all(51, 153, 255);
+//     rgb_matrix_sethsv_noeeprom(149, 204, 255);
+//   }
+//   if (!layer) {
+//     // println("Oneshot layer off");
+//     rgb_matrix_sethsv_noeeprom(HSV_OFF);
+//   }
+// }
 
 
 void keyboard_post_init_user(void) {
