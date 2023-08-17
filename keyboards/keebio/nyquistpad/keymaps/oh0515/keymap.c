@@ -115,7 +115,6 @@ L4------------------------------------
 
 
 
-
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock) { //|| is_caps_word_on()) {
         // for (uint8_t i = led_min; i <= led_max; i++) {
@@ -125,6 +124,21 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         // }
         // rgb_matrix_set_color_all(255, 70, 70);
         RGB_MATRIX_INDICATOR_SET_COLOR(31, 255, 70, 70);
+    }
+
+    if (get_oneshot_mods() & MOD_MASK_SHIFT) {
+        switch(get_highest_layer(layer_state|default_layer_state)) {
+            case _MAIN:
+                RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
+                break;
+            case _NUM:
+                RGB_MATRIX_INDICATOR_SET_COLOR(35, 102, 0, 204);
+                break;
+            default:
+                rgb_matrix_sethsv_noeeprom(HSV_OFF);
+                break;
+        }
+
     }
 
     switch(get_highest_layer(layer_state|default_layer_state)) {
@@ -141,6 +155,8 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             rgb_matrix_sethsv_noeeprom(HSV_OFF);
             break;
     }
+
+
 
     return false;
 }
