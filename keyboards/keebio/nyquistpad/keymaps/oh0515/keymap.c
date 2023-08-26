@@ -90,8 +90,8 @@ L4------------------------------------
  [_ALPHA2] = LAYOUT(
     KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
     KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
-    _______,  KC_U,   KC_O,    OSL(_ALPHA2), KC_R,     KC_C,   
-    KC_S,     KC_M,   KC_N,    KC_J,        KC_D,     KC_P,      
+    _______,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
+    KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_P,      
     KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
   ),  
 
@@ -126,35 +126,123 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         RGB_MATRIX_INDICATOR_SET_COLOR(31, 255, 70, 70);
     }
 
+    // int state = 0;
+    int hlayer = get_highest_layer(layer_state|default_layer_state);
+    bool setlight = false;
+
+    if (hlayer == _ALPHA2) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+        setlight = true;
+    }
+    if (hlayer == _NUM) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+        setlight = true;
+    }
+    if (hlayer == _UTILS) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+        setlight = true;
+    }
     if (get_oneshot_mods() & MOD_MASK_SHIFT) {
-        switch(get_highest_layer(layer_state|default_layer_state)) {
-            case _MAIN:
-                RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
-                break;
-            case _NUM:
-                RGB_MATRIX_INDICATOR_SET_COLOR(35, 102, 0, 204);
-                break;
-            default:
-                rgb_matrix_sethsv_noeeprom(HSV_OFF);
-                break;
+        if (hlayer == _NUM) {
+            RGB_MATRIX_INDICATOR_SET_COLOR(35, 102, 0, 204);
+            setlight = true;
+        } else {
+            RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
+            setlight = true;
         }
-
+    }
+    if (get_oneshot_mods() & MOD_MASK_CTRL) {
+        RGB_MATRIX_INDICATOR_SET_COLOR(15, 102, 50, 204);
+        setlight = true;
+    }
+    if (!setlight) {
+        rgb_matrix_sethsv_noeeprom(HSV_OFF);
     }
 
-    switch(get_highest_layer(layer_state|default_layer_state)) {
-        case _ALPHA2:
-            RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
-            break;
-        case _NUM:
-            RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
-            break;
-        case _UTILS:
-            RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
-            break;
-        default:
-            rgb_matrix_sethsv_noeeprom(HSV_OFF);
-            break;
-    }
+    // if (hlayer == _ALPHA2 && get_oneshot_mods() & MOD_MASK_SHIFT) state = 4;
+    // if (hlayer == _NUM && get_oneshot_mods() & MOD_MASK_SHIFT) state = 5;
+    // if (hlayer == _UTILS && get_oneshot_mods() & MOD_MASK_SHIFT) state = 6;
+    // else if (hlayer == _ALPHA2 && get_oneshot_mods() & MOD_MASK_CTRL) state = 7;
+    // else if (hlayer == _NUM && get_oneshot_mods() & MOD_MASK_CTRL) state = 8;
+    // else if (hlayer == _UTILS && get_oneshot_mods() & MOD_MASK_CTRL) state = 9;
+    // else if (hlayer == _ALPHA2) state = 1;
+    // else if (hlayer == _NUM) state = 2;
+    // else if (hlayer == _UTILS) state = 3;
+    // else state = 0;
+
+    // switch(state) {
+        
+    //     case 4:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
+    //         break;
+    //     case 5:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(35, 102, 0, 204);
+    //     case 6:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
+    //     case 7:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(15, 102, 50, 204);
+    //     case 8:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(15, 102, 50, 204);
+    //     case 9:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(15, 102, 50, 204);
+    //     case 1:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+    //         break;
+    //     case 2:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+    //         break;
+    //     case 3:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+    //         break;
+    //     default:
+    //         rgb_matrix_sethsv_noeeprom(HSV_OFF);
+    //         break;
+    // }
+
+    // if (get_oneshot_mods() & MOD_MASK_SHIFT) {
+    //     switch(get_highest_layer(layer_state|default_layer_state)) {
+    //         case _MAIN || _ALPHA2:
+    //             RGB_MATRIX_INDICATOR_SET_COLOR(2, 102, 0, 204);
+    //             break;
+    //         case _NUM:
+    //             RGB_MATRIX_INDICATOR_SET_COLOR(35, 102, 0, 204);
+    //             break;
+    //         // default:
+    //         //     rgb_matrix_sethsv_noeeprom(HSV_OFF);
+    //         //     break;
+    //     }
+
+    // }
+
+    // if (get_oneshot_mods() & MOD_MASK_CTRL) {
+    //     switch(get_highest_layer(layer_state|default_layer_state)) {
+    //         case _MAIN || _ALPHA2:
+    //             RGB_MATRIX_INDICATOR_SET_COLOR(12, 102, 50, 204);
+    //             break;
+    //     }
+
+    // }
+
+    // switch(get_highest_layer(layer_state|default_layer_state)) {
+    //     case _ALPHA2:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(18, 255, 100, 0);
+    //         break;
+    //     case _NUM:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(29, 153, 255, 51);
+    //         break;
+    //     case _UTILS:
+    //         RGB_MATRIX_INDICATOR_SET_COLOR(33, 51, 153, 255);
+    //         break;
+    //     default:
+    //         rgb_matrix_sethsv_noeeprom(HSV_OFF);
+    //         break;
+    // }
 
 
 
