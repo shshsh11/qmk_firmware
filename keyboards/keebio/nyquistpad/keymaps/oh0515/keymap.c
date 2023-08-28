@@ -81,8 +81,8 @@ L4------------------------------------
 
  [_MAIN] = LAYOUT(
    KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   
-   KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_COMM,    
-   OSCTL,    KC_S,    KC_E,    OSL(_ALPHA2), KC_A,     KC_W,   
+   KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_P,    
+   KC_COMM,    KC_S,    KC_E,    OSL(_ALPHA2), KC_A,     KC_W,   
    OSL(_NUM), KC_N, KC_I,    KC_V,        KC_F,     KC_K, 
    KC_LGUI,  KC_CAPS, KC_LALT, OSL(_UTILS), KC_BSPC, KC_SPC
   ),
@@ -90,8 +90,8 @@ L4------------------------------------
  [_ALPHA2] = LAYOUT(
     KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
     KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
-    _______,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
-    KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_P,      
+    OSCTL,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
+    KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_J,      
     KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
   ),  
 
