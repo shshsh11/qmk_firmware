@@ -92,7 +92,7 @@ L4------------------------------------
     KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
     OSCTL,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
     KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_J,      
-    KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
+    KC_LGUI, _______, KC_LALT, _______,     KC_L,  _______
   ),  
 
   [_NUM] = LAYOUT(
