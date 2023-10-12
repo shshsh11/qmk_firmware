@@ -88,11 +88,11 @@ L4------------------------------------
   ),
 
  [_ALPHA2] = LAYOUT(
-    KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
-    KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
+    KC_ESC,   KC_BSLS,   KC_MINS, KC_X,        KC_Z,     KC_GRV,   
+    KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_SPC,   
     OSCTL,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
     KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_J,      
-    KC_LGUI, _______, KC_LALT, _______,     KC_L,  _______
+    KC_LGUI, _______, KC_LALT, _______,     _______,  KC_L
   ),  
 
   [_NUM] = LAYOUT(
