@@ -18,6 +18,8 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
   SNIPEHOLD,
+  UP10,
+  DOWN10,
 };
 
 enum combo_events {
@@ -78,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_RAISE] = LAYOUT_rockon(
     _______,  KC_F1,      KC_F2,      KC_F3,      KC_F4,   KC_F5,   KC_F11,                             KC_F12,  KC_F6,         KC_F7,   KC_F8,    KC_F9,   KC_F10,   _______,
-    _______,  _______,   _______,   _______,   _______,    _______,    _______,                            _______, _______,       _______, _______,  _______, KC_PSCR,  KC_INS, 
+    _______,  _______,   _______,   _______,   _______,    _______,    _______,                            _______, _______,       _______, DOWN10, UP10, KC_PSCR,  KC_INS, 
     _______,  _______,   _______,   _______,   _______,    _______,    _______,                            _______, MO(_SYMBOLS),  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
     _______,  KC_COLN,    KC_COMM,    KC_DOT,    _______,  KC_ENT, _______,                            _______, _______,        KC_HOME, KC_PGDN,  KC_PGUP, KC_END,   _______, 
               _______,    _______,    _______,    _______, _______, _______, _______, _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, 
@@ -153,6 +155,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
             break;
+        case UP10:
+          if (record->event.pressed) {
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+               tap_code(KC_UP);
+          }
+          break;
+        case DOWN10:
+          if (record->event.pressed) {
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+            tap_code(KC_DOWN);
+          }
+          break;
         default:
             break;
     }
