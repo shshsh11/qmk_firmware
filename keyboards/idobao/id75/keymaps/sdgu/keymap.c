@@ -30,6 +30,8 @@ enum custom_keycodes {
   ADJUST,
   PLOVER,
   EXT_PLV,
+  DOWN10,
+  UP10
 };
 
 enum combo_events {
@@ -82,14 +84,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [_LOWER] = LAYOUT_ortho_5x15(
     KC_ESC,         LCTL(KC_C),    LCTL(KC_V),     LCTL(KC_X),   LCTL(KC_S), LCTL(KC_Z), _______, _______, _______, LCTL(KC_Y),  _______,  _______,  _______, _______, _______,
     KC_ESC,         LALT(KC_QUOT), LALT(KC_COMM),  LALT(KC_DOT), LALT(KC_P), LALT(KC_Y), _______, _______, _______,  _______,    _______,  _______,  _______, _______, KC_BSLS,
-    LCTL(KC_SLSH), LCTL(KC_A),       KC_LBRC,        KC_LCBR,      KC_LPRN,    KC_MINS,    _______, _______, _______,  _______,    KC_RPRN,  KC_RCBR,  KC_RBRC, _______, XXXXXXX, 
-    _______, _______,       _______,        _______,      _______,    _______,    _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
+    LCTL(KC_SLSH), LCTL(KC_A),       KC_LBRC,        KC_LCBR,      KC_LPRN,    KC_MINS,    _______, _______, _______,  _______,    KC_RPRN,  KC_RCBR,  KC_RBRC, _______, LALT(KC_ENT), 
+    _______, _______,       _______,        _______,      _______,    KC_UNDS,    _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______, 
     _______, _______,       _______,        _______,      _______,    _______,    _______, _______, _______,  _______,    _______,  _______,  _______, _______, _______ 
   ),  
 
   [_RAISE] = LAYOUT_ortho_5x15(
     _______,  KC_F1,      KC_F2,      KC_F3,      KC_F4,   KC_F5,   KC_F11,  _______, KC_F12,  KC_F6,    KC_F7,   KC_F8,    KC_F9,   KC_F10,   _______, 
-    _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______,  _______, _______,  _______, KC_PSCR,  KC_INS, 
+    _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______,  _______, DOWN10,  UP10, KC_PSCR,  KC_INS, 
     _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______,  KC_LEFT, KC_DOWN,  KC_UP,   KC_RIGHT, KC_DEL, 
     _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, _______,  KC_HOME, KC_PGDN,  KC_PGUP, KC_END,   _______, 
     _______,  _______,    _______,    _______,    _______, _______, _______, _______, _______, KC_SPC,   _______, _______,  _______,  _______, _______ 
@@ -97,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_ortho_5x15(
     _______,  PLOVER,     TO(_MAIN), _______,  _______,   _______,  RGB_TOG,  _______, _______, _______,    _______, _______, ST_GEM,   ST_BOLT,   QK_BOOT, 
-    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,    OS_OFF,  OS_ON,  DEBUG, 
+    _______,  _______,    KC_MPRV,    KC_MPLY,    KC_MNXT, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,    OS_OFF,  OS_ON,  DB_TOGG, 
     _______,  _______,    KC_VOLD,    KC_VOLU,    KC_MUTE, _______, _______,  _______, _______, DF(_MAIN),  _______, _______,  _______, _______,   _______, 
     _______,  _______,    _______,    _______,    _______, _______, _______,  _______, _______, _______,  _______, _______,  _______,  _______,  _______, 
     _______,  _______,    _______,    _______,    _______, _______, _______,  KC_NUM,  _______, _______,   _______, _______,  STN_PWR,  STN_RE1,  STN_RE2 
@@ -124,7 +126,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             tap_code(KC_DOT);
             tap_code(KC_SPC);
             /* Internal code of OSM(MOD_LSFT) */
-            add_oneshot_mods(MOD_BIT(KC_LSHIFT));
+            add_oneshot_mods(MOD_BIT(KC_LSFT));
 
         } else {
             // send ">" (KC_DOT + shift → ">")
@@ -157,11 +159,39 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+    case UP10:
+      if (record->event.pressed) {
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+           tap_code(KC_UP);
+      }
+      break;
+    case DOWN10:
+      if (record->event.pressed) {
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+        tap_code(KC_DOWN);
+      }
+      break;
   }
   return true;
 }
 
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock || is_caps_word_on()) {
         for (uint8_t i = led_min; i <= led_max; i++) {
             if (g_led_config.flags[i] & LED_FLAG_KEYLIGHT) {
@@ -169,6 +199,7 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             }
         }
     }
+    return false;
 }
 
 void matrix_init_user() {
